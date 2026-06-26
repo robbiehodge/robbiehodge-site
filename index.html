@@ -200,6 +200,50 @@
     <li><a href="#services">Advisory</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#contact">Contact</a></li>
+    <!-- CHARLOTTE CLOCK -->
+<div id="statusBar" style="
+  position:fixed;
+  bottom:32px;
+  right:40px;
+  z-index:200;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:rgba(6,6,6,0.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(201,168,76,0.2);
+  padding:10px 18px;
+  font-family:'DM Sans',sans-serif;
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:#7A7768;
+">
+  <span style="width:6px;height:6px;border-radius:50%;background:#6BCB77;box-shadow:0 0 0 0 rgba(107,203,119,0.5);animation:pulse-g 2.5s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>
+  <span style="color:#6BCB77;">Available</span>
+  <span style="color:rgba(201,168,76,0.3);">·</span>
+  <span>Charlotte, NC</span>
+  <span style="color:rgba(201,168,76,0.3);">·</span>
+  <span id="cltClock" style="color:#C9A84C;font-variant-numeric:tabular-nums;"></span>
+</div>
+
+<script>
+(function() {
+  function updateClock() {
+    const now = new Date();
+    const clt = now.toLocaleTimeString('en-US', {
+      timeZone: 'America/New_York',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+    document.getElementById('cltClock').textContent = clt;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+})();
+</script>
   </ul>
   <a href="#contact" class="nav-cta">Work Together</a>
 </nav>
