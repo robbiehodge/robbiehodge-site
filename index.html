@@ -200,12 +200,13 @@
     <li><a href="#services">Advisory</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#contact">Contact</a></li>
-    <!-- CHARLOTTE CLOCK -->
+  <!-- CHARLOTTE CLOCK -->
+<a href="#contact" style="text-decoration:none;">
 <div id="statusBar" style="
   position:fixed;
   bottom:32px;
   right:40px;
-  z-index:200;
+  z-index:9000;
   display:flex;
   align-items:center;
   gap:12px;
@@ -219,7 +220,12 @@
   letter-spacing:0.15em;
   text-transform:uppercase;
   color:#7A7768;
-">
+  cursor:pointer;
+  transition:border-color 0.3s ease;
+"
+onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'"
+onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
+>
   <span style="width:6px;height:6px;border-radius:50%;background:#6BCB77;box-shadow:0 0 0 0 rgba(107,203,119,0.5);animation:pulse-g 2.5s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>
   <span style="color:#6BCB77;">Available</span>
   <span style="color:rgba(201,168,76,0.3);">·</span>
@@ -227,6 +233,7 @@
   <span style="color:rgba(201,168,76,0.3);">·</span>
   <span id="cltClock" style="color:#C9A84C;font-variant-numeric:tabular-nums;"></span>
 </div>
+</a>
 
 <script>
 (function() {
