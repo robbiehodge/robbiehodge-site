@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#060606"/>
+
+  <!-- Rotating outer ring -->
+  <circle cx="16" cy="16" r="14" fill="none" stroke="#C9A84C" stroke-width="0.75" stroke-dasharray="4 2" opacity="0.5">
+    <animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="12s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Pulsing inner ring -->
+  <circle cx="16" cy="16" r="10" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="9;11;9" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- RH monogram -->
+  <!-- R -->
+  <text x="7.5" y="21" font-family="Georgia, serif" font-size="13" font-weight="300" fill="#C9A84C">
+    R
+    <animate attributeName="opacity" values="1;0.6;1" dur="4s" repeatCount="indefinite"/>
+  </text>
+  <!-- H -->
+  <text x="17" y="21" font-family="Georgia, serif" font-size="13" font-weight="300" fill="#E8C97A">
+    H
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite"/>
+  </text>
+
+  <!-- Corner dots that pulse in sequence -->
+  <circle cx="16" cy="4" r="1.2" fill="#C9A84C">
+    <animate attributeName="opacity" values="1;0.2;1" dur="2s" begin="0s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="1.2;1.8;1.2" dur="2s" begin="0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="28" cy="16" r="1.2" fill="#C9A84C">
+    <animate attributeName="opacity" values="1;0.2;1" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="1.2;1.8;1.2" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="16" cy="28" r="1.2" fill="#C9A84C">
+    <animate attributeName="opacity" values="1;0.2;1" dur="2s" begin="1s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="1.2;1.8;1.2" dur="2s" begin="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="4" cy="16" r="1.2" fill="#C9A84C">
+    <animate attributeName="opacity" values="1;0.2;1" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="1.2;1.8;1.2" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>
