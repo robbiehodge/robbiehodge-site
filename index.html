@@ -396,38 +396,154 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     </div>
   </div>
   <div class="contact-right">
-    <form class="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/?success=true">
-      <input type="hidden" name="form-name" value="contact">
-      <p style="display:none"><input name="bot-field"></p>
-      <div class="form-row">
-        <div class="form-field"><label>First Name</label><input type="text" name="first-name" placeholder="Jane"></div>
-        <div class="form-field"><label>Last Name</label><input type="text" name="last-name" placeholder="Smith"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="jane@company.com"></div>
-        <div class="form-field"><label>Company</label><input type="text" name="company" placeholder="Acme Co."></div>
-      </div>
-      <div class="form-row">
-        <div class="form-field full"><label>What brings you here?</label>
-          <select name="inquiry">
-            <option value="">Select one...</option>
-            <option>Fractional CMO / Marketing Leadership</option>
-            <option>Strategic Advisory Retainer</option>
-            <option>Project — YouTube / Content Strategy</option>
-            <option>Project — Email / Lifecycle Marketing</option>
-            <option>Project — Brand / Go-to-Market</option>
-            <option>B2B Lead Generation / Demand Gen</option>
-            <option>Full-Time VP / CMO Role</option>
-            <option>Speaking / Panels</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-field full"><label>Tell me more</label><textarea name="message" rows="4" placeholder="What are you building? What&#39;s the challenge? I read every message."></textarea></div>
-      </div>
-      <div class="form-submit"><button type="submit">Send Message &nbsp;→</button></div>
-    </form>
+   <form class="contact-form" id="contactForm" name="contact" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="contact">
+  <p style="display:none"><input name="bot-field"></p>
+  <div class="form-row">
+    <div class="form-field"><label>First Name</label><input type="text" name="first-name" placeholder="Jane"></div>
+    <div class="form-field"><label>Last Name</label><input type="text" name="last-name" placeholder="Smith"></div>
+  </div>
+  <div class="form-row">
+    <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="jane@company.com"></div>
+    <div class="form-field"><label>Company</label><input type="text" name="company" placeholder="Acme Co."></div>
+  </div>
+  <div class="form-row">
+    <div class="form-field full"><label>What brings you here?</label>
+      <select name="inquiry">
+        <option value="">Select one...</option>
+        <option>Fractional CMO / Marketing Leadership</option>
+        <option>Strategic Advisory Retainer</option>
+        <option>Project — YouTube / Content Strategy</option>
+        <option>Project — Email / Lifecycle Marketing</option>
+        <option>Project — Brand / Go-to-Market</option>
+        <option>B2B Lead Generation / Demand Gen</option>
+        <option>Full-Time VP / CMO Role</option>
+        <option>Speaking / Panels</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-field full"><label>Tell me more</label><textarea name="message" rows="4" placeholder="What are you building? What's the challenge? I read every message."></textarea></div>
+  </div>
+  <div class="form-submit"><button type="submit" id="submitBtn"><span id="submitLabel">Send Message &nbsp;→</span></button></div>
+</form>
+
+<script>
+(function() {
+  const form = document.getElementById('contactForm');
+  const btn  = document.getElementById('submitBtn');
+  const label = document.getElementById('submitLabel');
+  if (!form) return;
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Loading state
+    btn.disabled = true;
+    label.textContent = 'Sending...';
+    btn.style.letterSpacing = '0.35em';
+
+    try {
+      const data = new FormData(form);
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data).toString()
+      });
+
+      // Success — animate the form out
+      form.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      form.style.opacity = '0';
+      form.style.transform = 'translateY(8px)';
+
+      setTimeout(() => {
+        form.innerHTML = `
+          <div id="successMsg" style="
+            padding: 64px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            min-height: 360px;
+          ">
+            <div id="successIcon" style="
+              width: 64px; height: 64px;
+              border: 1px solid var(--gold);
+              border-radius: 50%;
+              display: flex; align-items: center; justify-content: center;
+              font-size: 24px;
+              color: var(--gold);
+              opacity: 0;
+              transform: scale(0.6);
+              transition: all 0.6s cubic-bezier(0.16,1,0.3,1);
+            ">✓</div>
+            <div style="
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 28px;
+              font-weight: 300;
+              font-style: italic;
+              color: var(--gold);
+              text-align: center;
+              line-height: 1.4;
+              opacity: 0;
+              transform: translateY(12px);
+              transition: all 0.7s ease 0.3s;
+            " id="successText">Message received.<br>I'll be in touch.</div>
+            <div style="
+              font-size: 11px;
+              letter-spacing: 0.25em;
+              text-transform: uppercase;
+              color: var(--text-muted);
+              opacity: 0;
+              transition: opacity 0.6s ease 0.6s;
+            " id="successSub">— Robbie Hodge</div>
+            <div style="
+              width: 0;
+              height: 1px;
+              background: linear-gradient(to right, transparent, var(--gold), transparent);
+              transition: width 0.8s ease 0.5s;
+              margin-top: 8px;
+            " id="successLine"></div>
+          </div>`;
+
+        form.style.opacity = '1';
+        form.style.transform = 'translateY(0)';
+
+        // Stagger elements in
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            document.getElementById('successIcon').style.opacity = '1';
+            document.getElementById('successIcon').style.transform = 'scale(1)';
+          }, 50);
+          setTimeout(() => {
+            document.getElementById('successText').style.opacity = '1';
+            document.getElementById('successText').style.transform = 'translateY(0)';
+          }, 100);
+          setTimeout(() => {
+            document.getElementById('successSub').style.opacity = '1';
+          }, 150);
+          setTimeout(() => {
+            document.getElementById('successLine').style.width = '200px';
+          }, 200);
+        });
+      }, 500);
+
+    } catch(err) {
+      // Error state
+      label.textContent = 'Something went wrong — try again';
+      btn.style.color = '#ff6b6b';
+      btn.disabled = false;
+      setTimeout(() => {
+        label.textContent = 'Send Message  →';
+        btn.style.color = '';
+        btn.style.letterSpacing = '';
+      }, 3000);
+    }
+  });
+})();
+</script>
   </div>
 </section>
 
