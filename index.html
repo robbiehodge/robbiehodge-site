@@ -395,16 +395,27 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
       <div class="contact-detail"><span class="contact-detail-label">Open to</span><span class="contact-detail-value">Full-time VP/CMO · Fractional · B2B &amp; DTC</span></div>
     </div>
   </div>
-  <div class="contact-right">
-  <form class="contact-form" id="contactForm" name="contact" data-netlify="true" data-netlify-honeypot="bot-field">
+ <form class="contact-form" id="contactForm" name="contact" data-netlify="true" data-netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="contact">
   <p style="display:none"><input name="bot-field"></p>
   <div class="form-row">
-    <div class="form-field"><label>First Name</label><input type="text" name="first-name" placeholder="Jane"></div>
-    <div class="form-field"><label>Last Name</label><input type="text" name="last-name" placeholder="Smith"></div>
+    <div class="form-field">
+      <label>First Name <span style="color:var(--gold)">*</span></label>
+      <input type="text" name="first-name" id="fieldFirstName" placeholder="Jane">
+      <span class="field-error" id="errFirstName" style="display:none;font-size:10px;color:#ff6b6b;letter-spacing:0.1em;margin-top:4px;">Required</span>
+    </div>
+    <div class="form-field">
+      <label>Last Name <span style="color:var(--gold)">*</span></label>
+      <input type="text" name="last-name" id="fieldLastName" placeholder="Smith">
+      <span class="field-error" id="errLastName" style="display:none;font-size:10px;color:#ff6b6b;letter-spacing:0.1em;margin-top:4px;">Required</span>
+    </div>
   </div>
   <div class="form-row">
-    <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="jane@company.com"></div>
+    <div class="form-field">
+      <label>Email <span style="color:var(--gold)">*</span></label>
+      <input type="email" name="email" id="fieldEmail" placeholder="jane@company.com">
+      <span class="field-error" id="errEmail" style="display:none;font-size:10px;color:#ff6b6b;letter-spacing:0.1em;margin-top:4px;">Valid email required</span>
+    </div>
     <div class="form-field"><label>Company</label><input type="text" name="company" placeholder="Acme Co."></div>
   </div>
   <div class="form-row">
@@ -426,54 +437,99 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   <div class="form-row">
     <div class="form-field full"><label>Tell me more</label><textarea name="message" rows="4" placeholder="What are you building? What's the challenge? I read every message."></textarea></div>
   </div>
-  <div class="form-submit"><button type="submit" id="submitBtn"><span id="submitLabel">Send Message &nbsp;→</span></button></div>
+  <div class="form-submit" style="position:relative;">
+    <button type="submit" id="submitBtn"><span id="submitLabel">Send Message &nbsp;→</span></button>
+    <canvas id="formCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;"></canvas>
+  </div>
 </form>
-
-<!-- Particle canvas for form confirmation -->
-<canvas id="formCanvas" style="position:absolute;inset:0;pointer-events:none;z-index:10;border-radius:inherit;"></canvas>
 
 <script>
 (function() {
-  const form = document.getElementById('contactForm');
-  const btn = document.getElementById('submitBtn');
-  const label = document.getElementById('submitLabel');
-  const canvas = document.getElementById('formCanvas');
-  const ctx = canvas.getContext('2d');
+  const form     = document.getElementById('contactForm');
+  const btn      = document.getElementById('submitBtn');
+  const label    = document.getElementById('submitLabel');
+  const canvas   = document.getElementById('formCanvas');
+  const ctx      = canvas.getContext('2d');
   if (!form) return;
 
-  // Size canvas to form
+  // ── Validation ──
+  function validate() {
+    let ok = true;
+
+    const first = document.getElementById('fieldFirstName');
+    const errFirst = document.getElementById('errFirstName');
+    if (!first.value.trim()) {
+      errFirst.style.display = 'block';
+      first.style.borderBottom = '1px solid #ff6b6b';
+      ok = false;
+    } else {
+      errFirst.style.display = 'none';
+      first.style.borderBottom = '';
+    }
+
+    const last = document.getElementById('fieldLastName');
+    const errLast = document.getElementById('errLastName');
+    if (!last.value.trim()) {
+      errLast.style.display = 'block';
+      last.style.borderBottom = '1px solid #ff6b6b';
+      ok = false;
+    } else {
+      errLast.style.display = 'none';
+      last.style.borderBottom = '';
+    }
+
+    const email = document.getElementById('fieldEmail');
+    const errEmail = document.getElementById('errEmail');
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+    if (!emailOk) {
+      errEmail.style.display = 'block';
+      email.style.borderBottom = '1px solid #ff6b6b';
+      ok = false;
+    } else {
+      errEmail.style.display = 'none';
+      email.style.borderBottom = '';
+    }
+
+    return ok;
+  }
+
+  // Clear errors on input
+  ['fieldFirstName','fieldLastName','fieldEmail'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => validate());
+  });
+
+  // ── Particle burst — origin is CENTER of canvas (which sits on the button) ──
   function sizeCanvas() {
-    const r = form.parentElement.getBoundingClientRect();
-    canvas.width = r.width;
+    const r = btn.getBoundingClientRect();
+    canvas.width  = r.width;
     canvas.height = r.height;
   }
-  sizeCanvas();
-  window.addEventListener('resize', sizeCanvas);
 
-  // ── Particle class ──
   class Particle {
-    constructor(x, y) {
+    constructor() {
+      // Always burst from center of the button canvas
+      this.x  = canvas.width / 2;
+      this.y  = canvas.height / 2;
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 6 + 2;
-      this.x = x; this.y = y;
-      this.vx = Math.cos(angle) * speed;
-      this.vy = Math.sin(angle) * speed;
+      const speed = Math.random() * 8 + 3;
+      this.vx    = Math.cos(angle) * speed;
+      this.vy    = Math.sin(angle) * speed;
       this.alpha = 1;
-      this.size = Math.random() * 3 + 1;
-      this.decay = Math.random() * 0.015 + 0.008;
-      this.gold = Math.random() > 0.3;
+      this.size  = Math.random() * 3 + 1;
+      this.decay = Math.random() * 0.018 + 0.01;
+      this.gold  = Math.random() > 0.3;
     }
     update() {
-      this.vx *= 0.94;
-      this.vy *= 0.94;
-      this.vy += 0.05; // slight gravity
-      this.x += this.vx;
-      this.y += this.vy;
+      this.vx *= 0.93;
+      this.vy *= 0.93;
+      this.vy += 0.08;
+      this.x  += this.vx;
+      this.y  += this.vy;
       this.alpha -= this.decay;
     }
     draw() {
       ctx.globalAlpha = Math.max(0, this.alpha);
-      ctx.fillStyle = this.gold ? '#C9A84C' : '#E8E4D8';
+      ctx.fillStyle   = this.gold ? '#C9A84C' : '#E8E4D8';
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
@@ -483,182 +539,101 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
 
   let particles = [];
   let animating = false;
-  let phase = 'idle'; // idle → burst → reveal
 
-  function burst(bx, by, count) {
-    for (let i = 0; i < count; i++) {
-      particles.push(new Particle(bx, by));
-    }
+  function burstParticles() {
+    sizeCanvas();
+    for (let i = 0; i < 100; i++) particles.push(new Particle());
   }
 
-  // ── Type-on effect ──
-  function typeOn(el, text, speed, onDone) {
-    el.textContent = '';
-    let i = 0;
-    const tick = () => {
-      if (i <= text.length) {
-        el.textContent = text.slice(0, i);
-        i++;
-        setTimeout(tick, speed);
-      } else if (onDone) onDone();
-    };
-    tick();
-  }
-
-  // ── Main animation loop ──
-  function animate() {
-    if (!animating) return;
+  function animLoop() {
+    if (!animating) { ctx.clearRect(0,0,canvas.width,canvas.height); return; }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles = particles.filter(p => !p.dead);
     particles.forEach(p => { p.update(); p.draw(); });
     ctx.globalAlpha = 1;
-    requestAnimationFrame(animate);
+    if (particles.length > 0) requestAnimationFrame(animLoop);
+    else { animating = false; ctx.clearRect(0,0,canvas.width,canvas.height); }
   }
 
-  // ── Show success ──
+  // ── Type-on ──
+  function typeOn(el, text, speed, onDone) {
+    el.textContent = '';
+    let i = 0;
+    const tick = () => {
+      el.textContent = text.slice(0, i++);
+      if (i <= text.length) setTimeout(tick, speed);
+      else if (onDone) onDone();
+    };
+    tick();
+  }
+
+  // ── Success screen ──
   function showSuccess() {
-    // Fade form content out
-    [...form.elements].forEach(el => { el.style.transition = 'opacity 0.4s'; el.style.opacity = '0'; });
-    btn.style.transition = 'opacity 0.4s';
-    btn.style.opacity = '0';
+    [...form.elements].forEach(el => { el.style.transition='opacity 0.4s'; el.style.opacity='0'; });
 
     setTimeout(() => {
-      // Replace form innerHTML with confirmation
       form.innerHTML = `
-        <div id="confirmWrap" style="
-          min-height: 360px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 0;
-          padding: 64px 48px;
-          position: relative;
-          overflow: hidden;
-        ">
-          <canvas id="bgParticles" style="position:absolute;inset:0;pointer-events:none;"></canvas>
-          <div id="confirmLine" style="
-            width: 0;
-            height: 1px;
-            background: var(--gold);
-            margin-bottom: 40px;
-            transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
-            position: relative; z-index: 1;
-          "></div>
-          <div id="confirmMsg" style="
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(28px, 3vw, 42px);
-            font-weight: 300;
-            color: var(--gold);
-            text-align: center;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-            min-height: 60px;
-            position: relative; z-index: 1;
-          "></div>
-          <div id="confirmSub" style="
-            font-size: 11px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-top: 28px;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            position: relative; z-index: 1;
-          ">— Robbie Hodge</div>
-          <div id="confirmLine2" style="
-            width: 0;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
-            margin-top: 32px;
-            transition: width 1s ease 0.4s;
-            position: relative; z-index: 1;
-          "></div>
+        <div style="min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:64px 48px;position:relative;overflow:hidden;">
+          <canvas id="bgDrift" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+          <div id="cLine1" style="width:0;height:1px;background:var(--gold);margin-bottom:40px;transition:width 0.9s cubic-bezier(0.16,1,0.3,1);position:relative;z-index:1;"></div>
+          <div id="cMsg" style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--gold);text-align:center;line-height:1.3;letter-spacing:-0.01em;min-height:60px;position:relative;z-index:1;"></div>
+          <div id="cSub" style="font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);margin-top:28px;opacity:0;transition:opacity 0.8s ease;position:relative;z-index:1;">— Robbie Hodge</div>
+          <div id="cLine2" style="width:0;height:1px;background:linear-gradient(to right,transparent,var(--gold-dim),transparent);margin-top:32px;transition:width 1s ease 0.4s;position:relative;z-index:1;"></div>
         </div>`;
 
-      sizeCanvas();
-
-      // Ambient drift particles on bg canvas
-      const bgC = document.getElementById('bgParticles');
+      // Ambient drift
+      const bgC   = document.getElementById('bgDrift');
       const bgCtx = bgC.getContext('2d');
-      const wrap = document.getElementById('confirmWrap');
-      bgC.width = wrap.offsetWidth;
-      bgC.height = wrap.offsetHeight;
-
-      const drifters = Array.from({length: 60}, () => ({
-        x: Math.random() * bgC.width,
-        y: Math.random() * bgC.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        a: Math.random() * 0.4 + 0.1,
-        r: Math.random() * 1.5 + 0.5,
+      const wrap  = bgC.parentElement;
+      bgC.width   = wrap.offsetWidth;
+      bgC.height  = wrap.offsetHeight;
+      const drifters = Array.from({length:60}, () => ({
+        x: Math.random()*bgC.width, y: Math.random()*bgC.height,
+        vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+        a: Math.random()*.35+.08, r: Math.random()*1.5+.5
       }));
-
-      (function driftTick() {
-        bgCtx.clearRect(0, 0, bgC.width, bgC.height);
+      (function dt() {
+        bgCtx.clearRect(0,0,bgC.width,bgC.height);
         drifters.forEach(d => {
-          d.x += d.vx; d.y += d.vy;
-          if (d.x < 0) d.x = bgC.width;
-          if (d.x > bgC.width) d.x = 0;
-          if (d.y < 0) d.y = bgC.height;
-          if (d.y > bgC.height) d.y = 0;
-          bgCtx.globalAlpha = d.a * (0.6 + 0.4 * Math.sin(Date.now() * 0.001 + d.x));
-          bgCtx.fillStyle = '#C9A84C';
-          bgCtx.beginPath();
-          bgCtx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-          bgCtx.fill();
+          d.x+=d.vx; d.y+=d.vy;
+          if(d.x<0) d.x=bgC.width; if(d.x>bgC.width) d.x=0;
+          if(d.y<0) d.y=bgC.height; if(d.y>bgC.height) d.y=0;
+          bgCtx.globalAlpha=d.a*(0.6+0.4*Math.sin(Date.now()*.001+d.x));
+          bgCtx.fillStyle='#C9A84C';
+          bgCtx.beginPath(); bgCtx.arc(d.x,d.y,d.r,0,Math.PI*2); bgCtx.fill();
         });
-        bgCtx.globalAlpha = 1;
-        requestAnimationFrame(driftTick);
+        bgCtx.globalAlpha=1;
+        requestAnimationFrame(dt);
       })();
 
-      // Sequence the reveal
-      requestAnimationFrame(() => {
-        // Line draws in
-        setTimeout(() => {
-          document.getElementById('confirmLine').style.width = '120px';
-        }, 50);
-
-        // Type on "Message received."
-        setTimeout(() => {
-          typeOn(document.getElementById('confirmMsg'), 'Message received.', 55, () => {
-            // Subtitle fades in
-            setTimeout(() => {
-              document.getElementById('confirmSub').style.opacity = '1';
-              document.getElementById('confirmLine2').style.width = '200px';
-            }, 200);
-          });
-        }, 600);
-      });
-
+      // Sequence
+      setTimeout(() => { document.getElementById('cLine1').style.width='120px'; }, 50);
+      setTimeout(() => {
+        typeOn(document.getElementById('cMsg'), 'Message received.', 55, () => {
+          setTimeout(() => {
+            document.getElementById('cSub').style.opacity='1';
+            document.getElementById('cLine2').style.width='200px';
+          }, 200);
+        });
+      }, 600);
     }, 500);
   }
 
-  // ── Form submit ──
+  // ── Submit ──
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    if (!validate()) return;
 
-    // Button loading state
     label.textContent = 'Sending';
     btn.disabled = true;
-
-    // Pulse the button gold
     btn.style.transition = 'background 0.2s, color 0.2s';
     btn.style.background = 'var(--gold)';
-    btn.style.color = 'var(--black)';
-
-    // Burst particles from button center
-    const btnRect = btn.getBoundingClientRect();
-    const formRect = form.getBoundingClientRect();
-    const bx = btnRect.left - formRect.left + btnRect.width / 2;
-    const by = btnRect.top - formRect.top + btnRect.height / 2;
+    btn.style.color      = 'var(--black)';
 
     animating = true;
-    sizeCanvas();
-    burst(bx, by, 80);
-    animate();
+    burstParticles();
+    animLoop();
 
-    // Submit to Netlify
     try {
       const data = new FormData(form);
       await fetch('/', {
@@ -666,15 +641,9 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(data).toString()
       });
-    } catch(err) {
-      // Still show success — don't punish for network glitch
-    }
+    } catch(err) {}
 
-    // Wait for burst to peak then transition
-    setTimeout(() => {
-      animating = false;
-      showSuccess();
-    }, 800);
+    setTimeout(showSuccess, 900);
   });
 })();
 </script>
