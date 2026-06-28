@@ -463,42 +463,37 @@ if(window.location.search.includes("success")) {
 </script>
 <script>
 (function() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+  const strength = 0.12;
+  const radius = 180;
 
-  function scramble(el) {
-    const final = el.dataset.final || el.textContent.trim();
-    el.dataset.final = final;
-    let frame = 0;
-    const totalFrames = 18;
-    
-    if (el._scrambling) return;
-    el._scrambling = true;
+  function magnetize(el) {
+    const words = el.innerText.trim().split(/\s+/);
+    el.innerHTML = words.map(w => `<span class="mag-word" style="display:inline-block;transition:transform 0.4s cubic-bezier(0.23,1,0.32,1);">${w}</span>`).join(' ');
+  }
 
-    const tick = () => {
-      if (frame >= totalFrames) {
-        el.textContent = final;
-        el._scrambling = false;
-        return;
+  function update(e) {
+    document.querySelectorAll('.mag-word').forEach(word => {
+      const rect = word.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < radius) {
+        const force = (radius - dist) / radius;
+        const tx = dx * force * strength;
+        const ty = dy * force * strength;
+        word.style.transform = `translate(${tx}px, ${ty}px)`;
+      } else {
+        word.style.transform = 'translate(0,0)';
       }
-      const progress = frame / totalFrames;
-      let result = '';
-      for (let i = 0; i < final.length; i++) {
-        if (final[i] === ' ') { result += ' '; continue; }
-        const resolved = progress > i / final.length;
-        result += resolved ? final[i] : chars[Math.floor(Math.random() * chars.length)];
-      }
-      el.textContent = result;
-      frame++;
-      requestAnimationFrame(tick);
-    };
-    tick();
+    });
   }
 
   window.addEventListener('load', function() {
-    document.querySelectorAll('.hero-name, .section-heading, .hero-pull-quote').forEach(el => {
-      el.style.cursor = 'none';
-      el.addEventListener('mouseenter', () => scramble(el));
-    });
+    document.querySelectorAll('.section-heading, .hero-pull-quote').forEach(el => magnetize(el));
+    document.addEventListener('mousemove', update);
   });
 })();
 </script>
