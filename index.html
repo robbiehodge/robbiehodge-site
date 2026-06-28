@@ -464,50 +464,41 @@ if(window.location.search.includes("success")) {
 <script>
 (function() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
-  
-  function scramble(el, finalText, duration) {
-    const total = duration;
-    const start = performance.now();
+
+  function scramble(el) {
+    const final = el.dataset.final || el.textContent.trim();
+    el.dataset.final = final;
+    let frame = 0;
+    const totalFrames = 18;
     
-    function tick(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / total, 1);
-      
+    if (el._scrambling) return;
+    el._scrambling = true;
+
+    const tick = () => {
+      if (frame >= totalFrames) {
+        el.textContent = final;
+        el._scrambling = false;
+        return;
+      }
+      const progress = frame / totalFrames;
       let result = '';
-      for (let i = 0; i < finalText.length; i++) {
-        if (finalText[i] === ' ') { result += ' '; continue; }
-        if (finalText[i] === '\n') { result += '\n'; continue; }
-        // Each character resolves based on progress
-        const charProgress = Math.max(0, (progress - (i / finalText.length) * 0.6) / 0.4);
-        if (charProgress >= 1) {
-          result += finalText[i];
-        } else {
-          result += chars[Math.floor(Math.random() * chars.length)];
-        }
+      for (let i = 0; i < final.length; i++) {
+        if (final[i] === ' ') { result += ' '; continue; }
+        const resolved = progress > i / final.length;
+        result += resolved ? final[i] : chars[Math.floor(Math.random() * chars.length)];
       }
       el.textContent = result;
-      if (progress < 1) requestAnimationFrame(tick);
-      else el.textContent = finalText;
-    }
-    requestAnimationFrame(tick);
+      frame++;
+      requestAnimationFrame(tick);
+    };
+    tick();
   }
 
-  // Wait for page to load then scramble the hero name
   window.addEventListener('load', function() {
-    setTimeout(function() {
-      // Find the hero name lines
-      const lines = document.querySelectorAll('.hero-name .ln-i, .hero-name .line-inner');
-      if (lines.length >= 2) {
-        scramble(lines[0], 'Robbie', 1400);
-        setTimeout(function() {
-          scramble(lines[1], 'Hodge.', 1400);
-        }, 300);
-      } else {
-        // Fallback — target hero-name directly
-        const name = document.querySelector('.hero-name');
-        if (name) scramble(name, 'Robbie\nHodge.', 1800);
-      }
-    }, 600);
+    document.querySelectorAll('.hero-name, .section-heading, .hero-pull-quote').forEach(el => {
+      el.style.cursor = 'none';
+      el.addEventListener('mouseenter', () => scramble(el));
+    });
   });
 })();
 </script>
