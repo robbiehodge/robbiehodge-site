@@ -74,7 +74,7 @@
   .marquee-wrap { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 18px 0; background: var(--surface); }
   .marquee-track { display: flex; white-space: nowrap; animation: marquee 30s linear infinite; }
   .marquee-item { font-family: "Cormorant Garamond", serif; font-size: 13px; font-style: italic; letter-spacing: 0.1em; color: var(--text-muted); padding: 0 40px; display: flex; align-items: center; gap: 40px; }
-  .marquee-item::after { content: "Ã¢ÂÂ"; font-size: 6px; color: var(--gold-dim); font-style: normal; }
+  .marquee-item::after { content: "&#9672;"; font-size: 6px; color: var(--gold-dim); font-style: normal; }
   @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
   /* SHARED */
@@ -329,19 +329,19 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   </div>
   <div class="services-grid">
     <div class="service-card">
-      <div class="service-icon">Ã¢ÂÂ</div>
+      <div class="service-icon">&#9673;</div>
       <h3>Fractional CMO</h3>
       <p>Senior marketing leadership without the full-time overhead. Embedded in your team, accountable to growth. Ideal for eCommerce and DTC brands ready to scale.</p>
       <a href="#contact" class="service-link">Start a conversation</a>
     </div>
     <div class="service-card">
-      <div class="service-icon">Ã¢ÂÂ</div>
+      <div class="service-icon">&#9680;</div>
       <h3>Strategic Advisory</h3>
       <p>Monthly retainer access to senior marketing counsel. For founders and executives who need a trusted partner on growth strategy, brand, team structure, and marketing decisions.</p>
       <a href="#contact" class="service-link">Learn more</a>
     </div>
     <div class="service-card">
-      <div class="service-icon">Ã¢ÂÂ</div>
+      <div class="service-icon">&#9670;</div>
       <h3>Project Engagements</h3>
       <p>YouTube channel launches, email and lifecycle buildouts, B2B demand generation systems, brand positioning, go-to-market plans, marketing audits, and direct-response strategy. Time-boxed and results-driven.</p>
       <a href="#contact" class="service-link">Discuss a project</a>
@@ -375,7 +375,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
         <p>Across consumer products, media, and specialty retail – startup through enterprise.</p>
       </div>
       <div class="work-side-card">
-        <div class="work-side-num">Ã¢ÂÂ</div>
+        <div class="work-side-num">&#9673;</div>
         <h4>Plaza Midwood Neighborhood Board</h4>
         <p>Digital communications lead. Monthly newsletters, community content, and civic digital strategy for one of Charlotte's most active neighborhoods.</p>
       </div>
@@ -454,7 +454,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   const ctx      = canvas.getContext('2d');
   if (!form) return;
 
-  // Ã¢ÂÂÃ¢ÂÂ Validation Ã¢ÂÂÃ¢ÂÂ
+  // &rarr;&rarr; Validation &rarr;&rarr;
   function validate() {
     let ok = true;
 
@@ -500,7 +500,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     document.getElementById(id).addEventListener('input', () => validate());
   });
 
-  // Ã¢ÂÂÃ¢ÂÂ Particle burst – origin is CENTER of canvas (which sits on the button) Ã¢ÂÂÃ¢ÂÂ
+  // &rarr;&rarr; Particle burst – origin is CENTER of canvas (which sits on the button) &rarr;&rarr;
   function sizeCanvas() {
     const r = btn.getBoundingClientRect();
     canvas.width  = r.width;
@@ -557,7 +557,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     else { animating = false; ctx.clearRect(0,0,canvas.width,canvas.height); }
   }
 
-  // Ã¢ÂÂÃ¢ÂÂ Type-on Ã¢ÂÂÃ¢ÂÂ
+  // &rarr;&rarr; Type-on &rarr;&rarr;
   function typeOn(el, text, speed, onDone) {
     el.textContent = '';
     let i = 0;
@@ -569,7 +569,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     tick();
   }
 
-  // Ã¢ÂÂÃ¢ÂÂ Success screen Ã¢ÂÂÃ¢ÂÂ
+  // &rarr;&rarr; Success screen &rarr;&rarr;
   function showSuccess() {
     [...form.elements].forEach(el => { el.style.transition='opacity 0.4s'; el.style.opacity='0'; });
 
@@ -621,7 +621,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     }, 500);
   }
 
-  // Ã¢ÂÂÃ¢ÂÂ Submit Ã¢ÂÂÃ¢ÂÂ
+  // &rarr;&rarr; Submit &rarr;&rarr;
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     if (!validate()) return;
