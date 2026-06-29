@@ -189,6 +189,14 @@
   }
 </style>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPX0MFSJN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9CPX0MFSJN');
+</script>
 </head>
 <body>
 
@@ -827,6 +835,113 @@ if(window.location.search.includes("success")) {
   function resetIdle() { exitIdle(); clearTimeout(idleTimer); idleTimer = setTimeout(enterIdle, IDLE_DELAY); }
   ["mousemove","mousedown","keydown","scroll","touchstart"].forEach(function(e) { document.addEventListener(e, resetIdle, {passive:true}); });
   resetIdle();
+})();
+</script>
+
+<script>
+(function() {
+  function gta(event, params) {
+    if(typeof gtag !== 'undefined') gtag('event', event, params || {});
+  }
+
+  window.addEventListener('load', function() {
+
+    // ── SECTION VIEW TRACKING ──
+    var sections = [
+      {id:'about', name:'About'},
+      {id:'services', name:'Services'},
+      {id:'work', name:'Work'},
+      {id:'contact', name:'Contact'}
+    ];
+    var sectionObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if(e.isIntersecting) {
+          gta('section_view', { section_name: e.target.dataset.trackName });
+          sectionObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(function(s) {
+      var el = document.getElementById(s.id);
+      if(el) { el.dataset.trackName = s.name; sectionObs.observe(el); }
+    });
+
+    // ── CTA CLICK TRACKING ──
+    document.querySelectorAll('a[href="#contact"], a[href="#services"], a[href="#work"]').forEach(function(a) {
+      a.addEventListener('click', function() {
+        gta('cta_click', { cta_text: a.textContent.trim(), cta_destination: a.getAttribute('href') });
+      });
+    });
+
+    // ── NAV CLICK TRACKING ──
+    document.querySelectorAll('.nav-links a, .nav-cta, .nav-back').forEach(function(a) {
+      a.addEventListener('click', function() {
+        gta('nav_click', { nav_item: a.textContent.trim() });
+      });
+    });
+
+    // ── LINKEDIN CLICK TRACKING ──
+    document.querySelectorAll('a[href*="linkedin.com"]').forEach(function(a) {
+      a.addEventListener('click', function() {
+        gta('outbound_click', { destination: 'LinkedIn' });
+      });
+    });
+
+    // ── FORM TRACKING ──
+    var form = document.getElementById('contactForm');
+    if(!form) return;
+
+    var formStarted = false;
+    form.querySelectorAll('input, textarea, select').forEach(function(field) {
+      field.addEventListener('focus', function() {
+        if(!formStarted) {
+          formStarted = true;
+          gta('form_start', { form_name: 'contact' });
+        }
+      }, { once: true });
+    });
+
+    // Track validation errors
+    var origValidate = window._validateForm;
+    form.addEventListener('submit', function(e) {
+      var firstName = document.getElementById('fieldFirstName');
+      var lastName  = document.getElementById('fieldLastName');
+      var email     = document.getElementById('fieldEmail');
+      var inquiry   = form.querySelector('[name="inquiry"]');
+
+      var errors = [];
+      if(firstName && !firstName.value.trim()) errors.push('first_name');
+      if(lastName  && !lastName.value.trim())  errors.push('last_name');
+      if(email     && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) errors.push('email');
+
+      if(errors.length > 0) {
+        gta('form_error', { form_name: 'contact', missing_fields: errors.join(',') });
+      }
+    });
+
+    // Track successful submission — hook into the fetch response
+    var origSubmit = form.onsubmit;
+    var fetchOrig = window.fetch;
+    window.fetch = function(url, opts) {
+      var p = fetchOrig.apply(this, arguments);
+      if(url === '/' && opts && opts.method === 'POST') {
+        p.then(function(r) {
+          if(r.ok) {
+            var inquiry = form ? form.querySelector('[name="inquiry"]') : null;
+            var inquiryVal = inquiry ? inquiry.value : 'not specified';
+            gta('form_submit', {
+              form_name: 'contact',
+              inquiry_type: inquiryVal,
+              value: 1,
+              currency: 'USD'
+            });
+          }
+        }).catch(function(){});
+      }
+      return p;
+    };
+
+  });
 })();
 </script>
 </body></html>
