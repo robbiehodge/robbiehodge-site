@@ -4,6 +4,17 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Robbie Hodge | Fractional CMO Charlotte, NC — eCommerce & DTC Marketing Leader</title>
+<meta property="og:title" content="Robbie Hodge | Fractional CMO Charlotte, NC">
+<meta property="og:description" content="Senior marketing leader and fractional CMO based in Charlotte, NC. 18+ years scaling eCommerce and DTC brands.">
+<meta property="og:url" content="https://robbiehodge.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://robbiehodge.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Robbie Hodge | Fractional CMO Charlotte, NC">
+<meta name="twitter:description" content="Senior marketing leader and fractional CMO based in Charlotte, NC. 18+ years scaling eCommerce and DTC brands.">
+<meta name="twitter:image" content="https://robbiehodge.com/og-image.png">
 <meta name="description" content="Senior marketing leader and fractional CMO based in Charlotte, NC. 18+ years scaling eCommerce and DTC brands. Available for fractional CMO, advisory, and B2B lead generation engagements.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -198,6 +209,31 @@
   gtag('js', new Date());
   gtag('config', 'G-9CPX0MFSJN');
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Robbie Hodge",
+  "jobTitle": "Fractional CMO",
+  "description": "Senior marketing leader and fractional CMO based in Charlotte, NC. 18+ years scaling eCommerce and DTC brands.",
+  "url": "https://robbiehodge.com",
+  "email": "me@robbiehodge.com",
+  "telephone": "+17046298677",
+  "image": "https://robbiehodge.com/og-image.png",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Charlotte",
+    "addressRegion": "NC",
+    "addressCountry": "US"
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Charlotte", "sameAs": "https://en.wikipedia.org/wiki/Charlotte,_North_Carolina"},
+    {"@type": "State", "name": "North Carolina"}
+  ],
+  "knowsAbout": ["eCommerce Marketing", "DTC Growth", "Fractional CMO", "B2B Lead Generation", "YouTube Marketing", "Performance Marketing", "Brand Strategy"],
+  "sameAs": ["https://www.linkedin.com/in/robbie-hodge-4b671a9/"]
+}
+</script>
 </head>
 <body>
 
@@ -306,7 +342,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     <p class="about-bio">
       I build brands people actually care about. With <strong>18+ years leading marketing strategy</strong>, I've scaled eCommerce companies from scrappy startups to industry-leading revenue machines.<br><br>
       Most recently as SVP of Marketing at Varda Partners, I led the growth engine behind <strong>a leading firearms retailer</strong> – a YouTube-powered YouTube-powered DTC powerhouse with <strong>1.6M+ subscribers</strong> and a fiercely loyal community. I blend creative instincts with an obsession over <strong>data, attribution, and ROI</strong> – across both B2B lead generation and DTC eCommerce. I stay hands-on whether building a YouTube channel, a lifecycle email system, a demand gen engine, or a direct-response strategy that converts.<br><br>
-      Charlotte, NC. Board member, Plaza Midwood Neighborhood Association.
+      Based in Charlotte, NC and available for remote engagements nationwide. Board member, Plaza Midwood Neighborhood Association.
     </p>
     <div class="about-quals">
       <div class="about-qual"><div class="about-qual-dot"></div><div class="about-qual-text">18+ years leading marketing at eCommerce and DTC brands</div></div>
@@ -334,7 +370,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
       <div class="section-label">Advisory Services</div>
       <h2 class="section-heading">Fractional<br><em>leadership</em><br>for bold brands.</h2>
     </div>
-    <p class="services-desc">Available for full-time leadership roles (VP, CMO, Head of Marketing) as well as select freelance or fractional partnerships. B2B or DTC – if you are building something great and need someone who can turn vision into velocity, let's talk.</p>
+    <p class="services-desc">Available for full-time leadership roles (VP, CMO, Head of Marketing) as well as select fractional CMO partnerships across Charlotte, NC and nationwide. B2B or DTC – if you are building something great and need someone who can turn vision into velocity, let's talk.</p>
   </div>
   <div class="services-grid">
     <div class="service-card">
@@ -634,6 +670,9 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     if (!validate()) return;
+    // Block if Turnstile not completed
+    const tsEl = document.querySelector('[name="cf-turnstile-response"]');
+    if(tsEl && !tsEl.value) { label.textContent = 'Please verify you are human'; btn.disabled = false; btn.style.background=''; btn.style.color=''; return; }
 
     label.textContent = 'Sending';
     btn.disabled = true;
