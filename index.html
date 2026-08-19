@@ -429,8 +429,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
 (function() {
   function updateClock() {
     const now = new Date();
-    const clt = now.toLocaleTimeStrin
-    <li><a href="/blog/">Blog</a></li>g('en-US', {
+    const clt = now.toLocaleTimeString('en-US', {
       timeZone: 'America/New_York',
       hour: 'numeric',
       minute: '2-digit',
@@ -442,6 +441,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   setInterval(updateClock, 1000);
 })();
 </script>
+      <li><a href="/blog/">Blog</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Work Together</a>
 </nav>
