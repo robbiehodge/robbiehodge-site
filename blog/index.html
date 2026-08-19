@@ -3,35 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog | Robbie Hodge — CMO & Marketing Leader</title>
-<meta name="description" content="Marketing strategy, growth systems, and leadership insights from Robbie Hodge — fractional CMO and digital marketing leader based in Charlotte, NC.">
+<title>Blog | Robbie Hodge</title>
+<meta name="description" content="Marketing strategy, growth systems, and leadership insights from Robbie Hodge — fractional CMO based in Charlotte, NC.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:title" content="Blog | Robbie Hodge">
-<meta property="og:description" content="Marketing strategy, growth systems, and leadership insights from a fractional CMO with 18+ years of experience.">
+<meta property="og:description" content="Marketing strategy and growth insights from a fractional CMO with 18+ years of experience.">
 <meta property="og:url" content="https://robbiehodge.com/blog/">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://robbiehodge.com/og-image.jpg">
-<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:#7A5E28;
-  --gold-glow:rgba(201,168,76,0.12);--black:#060606;--dark:#0A0A08;
-  --surface:#121210;--surface2:#181816;
+  --black:#060606;--dark:#0A0A08;--surface:#121210;--surface2:#181816;
   --border:rgba(201,168,76,0.1);--border-bright:rgba(201,168,76,0.28);
   --text:#F0EDE6;--text-muted:#B8B0A0;--text-mid:#D0C8B8;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--black);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
-body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.032;pointer-events:none;z-index:9990;}
-#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;margin-left:-4px;margin-top:-4px;transition:width .3s,height .3s;}
-#cursorRing{position:fixed;width:40px;height:40px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:9998;margin-left:-20px;margin-top:-20px;transition:width .4s cubic-bezier(.23,1,.32,1),height .4s cubic-bezier(.23,1,.32,1),border-color .3s;}
-body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:16px;height:16px;}
-body:has(a:hover) #cursorRing,body:has(button:hover) #cursorRing{width:64px;height:64px;border-color:rgba(201,168,76,.7);}
-#progressBar{position:fixed;top:0;left:0;z-index:200;height:2px;width:0%;background:linear-gradient(to right,var(--gold-dim),var(--gold));transition:width .1s linear;}
+
+/* CURSOR */
+#cur{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;left:0;top:0;will-change:transform;}
+#cur-ring{position:fixed;width:40px;height:40px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:9998;left:0;top:0;will-change:transform;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;background:rgba(6,6,6,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
@@ -46,64 +42,52 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 /* HERO */
 .blog-hero{min-height:50vh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 80px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
-.blog-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--dark) 0%,var(--black) 70%);z-index:0;}
-.blog-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px;z-index:1;mask-image:linear-gradient(to bottom,transparent 0%,black 30%,black 70%,transparent 100%);}
-.blog-hero-glow{position:absolute;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);z-index:1;pointer-events:none;}
-.blog-hero-content{position:relative;z-index:2;max-width:760px;}
-.blog-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
-.blog-tag::before{content:"";display:block;width:28px;height:1px;background:var(--gold);}
-.blog-title{font-family:"Cormorant Garamond",serif;font-size:clamp(48px,6vw,88px);font-weight:300;line-height:.95;letter-spacing:-.02em;color:var(--text);margin-bottom:24px;}
-.blog-title em{font-style:italic;color:var(--gold);}
-.blog-sub{font-size:16px;line-height:1.8;color:var(--text-muted);max-width:560px;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--dark) 0%,var(--black) 70%);z-index:0;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px;z-index:1;}
+.hero-content{position:relative;z-index:2;max-width:760px;}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.hero-tag::before{content:"";display:block;width:28px;height:1px;background:var(--gold);}
+h1{font-family:"Cormorant Garamond",serif;font-size:clamp(48px,6vw,88px);font-weight:300;line-height:.95;letter-spacing:-.02em;color:var(--text);margin-bottom:24px;}
+h1 em{font-style:italic;color:var(--gold);}
+.hero-sub{font-size:16px;line-height:1.8;color:var(--text-muted);max-width:560px;}
 
-/* POSTS GRID */
+/* POSTS */
 .blog-body{padding:80px;background:var(--black);}
-.blog-filter{display:flex;gap:12px;margin-bottom:60px;flex-wrap:wrap;}
-.filter-btn{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:8px 20px;background:none;cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .3s;}
-.filter-btn:hover,.filter-btn.active{color:var(--gold);border-color:var(--border-bright);}
-.posts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);}
-.post-card{background:var(--dark);padding:52px 48px;text-decoration:none;display:block;position:relative;overflow:hidden;transition:background .4s;}
+.posts-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);}
+
+/* LIVE POST CARD */
+.post-card{background:var(--dark);padding:48px;text-decoration:none;display:block;position:relative;overflow:hidden;transition:background .4s;}
 .post-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
-.post-card::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 0% 100%,rgba(201,168,76,0.06) 0%,transparent 60%);opacity:0;transition:opacity .4s ease;}
 .post-card:hover{background:var(--surface);}
 .post-card:hover::before{transform:scaleX(1);}
-.post-card:hover::after{opacity:1;}
-.post-card-meta{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
-.post-card-topic{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);position:relative;z-index:1;}
-.post-card-dot{width:3px;height:3px;border-radius:50%;background:var(--gold-dim);}
-.post-card-date{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);position:relative;z-index:1;}
-.post-card h2{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,2.5vw,36px);font-weight:300;line-height:1.15;color:var(--text);margin-bottom:16px;position:relative;z-index:1;transition:color .3s;}
+.post-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.post-topic{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+.post-sep{width:3px;height:3px;border-radius:50%;background:var(--gold-dim);}
+.post-date{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);}
+.post-card h2{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,2.2vw,32px);font-weight:300;line-height:1.15;color:var(--text);margin-bottom:14px;}
 .post-card h2 em{font-style:italic;color:var(--gold);}
-.post-card:hover h2{color:var(--text);}
-.post-card p{font-size:14px;line-height:1.8;color:var(--text-muted);margin-bottom:32px;position:relative;z-index:1;}
-.post-card-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:20px;position:relative;z-index:1;}
-.post-card-read{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);}
-.post-card-arrow{font-size:18px;color:var(--gold-dim);transition:transform .3s ease,color .3s;}
-.post-card:hover .post-card-arrow{transform:translateX(6px);color:var(--gold);}
+.post-card p{font-size:14px;line-height:1.8;color:var(--text-muted);margin-bottom:28px;}
+.post-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:18px;}
+.post-readtime{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);}
+.post-arrow{font-size:18px;color:var(--gold-dim);transition:transform .3s,color .3s;}
+.post-card:hover .post-arrow{transform:translateX(6px);color:var(--gold);}
 
-/* FEATURED post - spans full width */
-.post-card.featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-.post-card.featured h2{font-size:clamp(32px,3.5vw,52px);}
-.post-card.featured .featured-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:12px;}
-.post-card.featured .featured-label::before{content:"";display:block;width:24px;height:1px;background:var(--gold);}
+/* COMING SOON CARD */
+.soon-card{background:var(--dark);padding:48px;display:block;position:relative;overflow:hidden;opacity:0.55;border:1px dashed rgba(201,168,76,0.12);}
+.soon-badge{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:5px 14px;display:inline-block;margin-bottom:20px;}
+.soon-card h2{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,2.2vw,32px);font-weight:300;line-height:1.15;color:var(--text-mid);margin-bottom:14px;}
+.soon-card h2 em{font-style:italic;color:var(--gold-dim);}
+.soon-card p{font-size:14px;line-height:1.8;color:var(--text-muted);margin-bottom:28px;}
+.soon-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:18px;}
+.soon-footer span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);}
 
-/* COMING SOON card */
-.post-card.coming-soon{opacity:0.6;cursor:default;border:1px dashed rgba(201,168,76,0.15);}
-.post-card.coming-soon:hover{background:var(--dark);}
-.post-card.coming-soon::before{display:none;}
-.coming-soon-badge{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:4px 12px;display:inline-block;margin-bottom:16px;}
-
-/* NEWSLETTER */
-.newsletter{padding:80px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;position:relative;overflow:hidden;}
-.newsletter::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);pointer-events:none;}
-.newsletter h2{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3vw,48px);font-weight:300;color:var(--text);margin-bottom:12px;position:relative;z-index:1;}
-.newsletter h2 em{font-style:italic;color:var(--gold);}
-.newsletter p{font-size:15px;color:var(--text-muted);margin-bottom:36px;position:relative;z-index:1;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7;}
-.newsletter-form{display:flex;gap:0;max-width:440px;margin:0 auto;position:relative;z-index:1;}
-.newsletter-form input{flex:1;background:var(--dark);border:1px solid var(--border-bright);border-right:none;color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;padding:14px 20px;outline:none;}
-.newsletter-form input::placeholder{color:var(--text-muted);}
-.newsletter-form button{background:var(--gold);color:var(--black);border:none;font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 28px;cursor:pointer;font-weight:500;transition:background .3s;white-space:nowrap;}
-.newsletter-form button:hover{background:var(--gold-light);}
+/* CTA */
+.blog-cta{padding:80px;background:var(--surface);border-top:1px solid var(--border);text-align:center;}
+.blog-cta h2{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3vw,48px);font-weight:300;color:var(--text);margin-bottom:12px;}
+.blog-cta h2 em{font-style:italic;color:var(--gold);}
+.blog-cta p{font-size:15px;color:var(--text-muted);margin-bottom:36px;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7;}
+.btn{background:var(--gold);color:var(--black);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:16px 36px;text-decoration:none;font-weight:500;display:inline-block;transition:background .3s;font-family:"DM Sans",sans-serif;}
+.btn:hover{background:var(--gold-light);}
 
 /* FOOTER */
 footer{padding:40px 80px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--dark);}
@@ -115,27 +99,23 @@ footer{padding:40px 80px;border-top:1px solid var(--border);display:flex;align-i
 
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-delay-1{transition-delay:.1s;}
-.reveal-delay-2{transition-delay:.2s;}
+.reveal-d1{transition-delay:.1s;}
+.reveal-d2{transition-delay:.2s;}
 
 @media(max-width:900px){
   nav{padding:18px 24px;} .nav-links{display:none;}
   .blog-hero{padding:120px 28px 60px;}
-  .blog-body{padding:40px 28px;}
+  .blog-body,.blog-cta{padding:40px 28px;}
   .posts-grid{grid-template-columns:1fr;}
-  .post-card.featured{grid-template-columns:1fr;gap:0;}
-  .newsletter{padding:60px 28px;}
-  .newsletter-form{flex-direction:column;}
-  .newsletter-form input{border-right:1px solid var(--border-bright);border-bottom:none;}
   footer{flex-direction:column;gap:20px;text-align:center;padding:40px 28px;}
   .footer-links{flex-wrap:wrap;justify-content:center;}
 }
 </style>
 </head>
 <body>
-<div id="progressBar"></div>
-<div id="cursor"></div>
-<div id="cursorRing"></div>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
 <nav>
   <a href="/" class="nav-logo">Robbie Hodge</a>
@@ -149,356 +129,78 @@ footer{padding:40px 80px;border-top:1px solid var(--border);display:flex;align-i
   <a href="/#contact" class="nav-cta">Work Together</a>
 </nav>
 
-<!-- HERO -->
 <section class="blog-hero">
-  <div class="blog-hero-bg"></div>
-  <div class="blog-hero-grid"></div>
-  <div class="blog-hero-glow"></div>
-  <div class="blog-hero-content">
-    <div class="blog-tag">Thoughts &nbsp;&middot;&nbsp; Strategy &nbsp;&middot;&nbsp; Growth</div>
-    <h1 class="blog-title">Marketing that<br><em>actually works.</em></h1>
-    <p class="blog-sub">Real talk on growth strategy, marketing infrastructure, and what it actually takes to build brands people care about. No fluff. No vanity metrics. Just what moves the needle.</p>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Thoughts &nbsp;&middot;&nbsp; Strategy &nbsp;&middot;&nbsp; Growth</div>
+    <h1>Marketing that<br><em>actually works.</em></h1>
+    <p class="hero-sub">Real talk on growth strategy, marketing infrastructure, and what it actually takes to build brands people care about. No fluff. No vanity metrics. Just what moves the needle.</p>
   </div>
 </section>
 
-<!-- POSTS -->
 <div class="blog-body">
-  <div class="blog-filter">
-    <button class="filter-btn active">All</button>
-    <button class="filter-btn">Marketing Stack</button>
-    <button class="filter-btn">Outbound</button>
-    <button class="filter-btn">eCommerce</button>
-    <button class="filter-btn">Leadership</button>
-  </div>
-
   <div class="posts-grid">
 
-    <!-- POST 1: Apollo + HubSpot — LIVE -->
+    <!-- LIVE POST -->
     <a href="/blog/apollo-hubspot-outbound-stack/" class="post-card reveal">
-      <div class="post-card-meta">
-        <span class="post-card-topic">Marketing Stack &middot; Outbound</span>
-        <div class="post-card-dot"></div>
-        <span class="post-card-date">August 2026</span>
+      <div class="post-meta">
+        <span class="post-topic">Marketing Stack &middot; Outbound</span>
+        <div class="post-sep"></div>
+        <span class="post-date">August 2026</span>
       </div>
       <h2>How I Use Apollo and HubSpot to Fill My Pipeline <em>on Autopilot.</em></h2>
       <p>The exact outbound stack I built to identify website visitors, build targeted lists, and get personalized messages into the right inboxes &mdash; without a sales team or a massive budget.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">8 min read</span>
-        <span class="post-card-arrow">&rarr;</span>
+      <div class="post-footer">
+        <span class="post-readtime">8 min read</span>
+        <span class="post-arrow">&rarr;</span>
       </div>
     </a>
 
-    <!-- COMING SOON POSTS -->
-    <div class="post-card coming-soon reveal reveal-delay-1">
-      <div class="coming-soon-badge">Coming Soon</div>
-      <div class="post-card-meta">
-        <span class="post-card-topic">eCommerce</span>
+    <!-- COMING SOON -->
+    <div class="soon-card reveal reveal-d1">
+      <div class="soon-badge">Coming Soon</div>
+      <div class="post-meta">
+        <span class="post-topic" style="color:var(--gold-dim);">eCommerce</span>
       </div>
       <h2>Why Content-Led Growth Beats Paid Acquisition <em>Every Time.</em></h2>
-      <p>The compounding math behind content marketing that most brands ignore &mdash; and how to build an engine that gets cheaper over time while paid only gets more expensive.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">Coming soon</span>
-        <span class="post-card-arrow" style="opacity:0.3;">&rarr;</span>
+      <p>The compounding math behind content marketing that most brands ignore &mdash; and how to build an engine that gets cheaper over time.</p>
+      <div class="soon-footer">
+        <span>In progress</span>
       </div>
     </div>
 
-    <div class="post-card coming-soon reveal">
-      <div class="coming-soon-badge">Coming Soon</div>
-      <div class="post-card-meta">
-        <span class="post-card-topic">Leadership</span>
+    <div class="soon-card reveal reveal-d2">
+      <div class="soon-badge">Coming Soon</div>
+      <div class="post-meta">
+        <span class="post-topic" style="color:var(--gold-dim);">Leadership</span>
       </div>
       <h2>The First 90 Days as a <em>Fractional CMO.</em></h2>
-      <p>What I actually do in the first three months of a fractional engagement &mdash; the audit, the roadmap, the quick wins, and how to build trust with a team that didn&rsquo;t hire you.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">Coming soon</span>
-        <span class="post-card-arrow" style="opacity:0.3;">&rarr;</span>
+      <p>What I actually do in the first three months &mdash; the audit, the roadmap, the quick wins, and how to build trust with a team that didn&rsquo;t hire you.</p>
+      <div class="soon-footer">
+        <span>In progress</span>
       </div>
     </div>
 
-    <div class="post-card coming-soon reveal reveal-delay-1">
-      <div class="coming-soon-badge">Coming Soon</div>
-      <div class="post-card-meta">
-        <span class="post-card-topic">Marketing Stack</span>
+    <div class="soon-card reveal">
+      <div class="soon-badge">Coming Soon</div>
+      <div class="post-meta">
+        <span class="post-topic" style="color:var(--gold-dim);">Marketing Stack</span>
       </div>
       <h2>The Marketing Tech Stack I Actually <em>Recommend.</em></h2>
       <p>After 18+ years building marketing functions, here are the tools I put in place at every company I work with &mdash; and the ones I always rip out.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">Coming soon</span>
-        <span class="post-card-arrow" style="opacity:0.3;">&rarr;</span>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- NEWSLETTERlang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog | Robbie Hodge — CMO & Marketing Leader</title>
-<meta name="description" content="Marketing strategy, growth systems, and leadership insights from Robbie Hodge — fractional CMO and digital marketing leader based in Charlotte, NC.">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<meta property="og:title" content="Blog | Robbie Hodge">
-<meta property="og:description" content="Marketing strategy, growth systems, and leadership insights from a fractional CMO with 18+ years of experience.">
-<meta property="og:url" content="https://robbiehodge.com/blog/">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://robbiehodge.com/og-image.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:#7A5E28;
-  --gold-glow:rgba(201,168,76,0.12);--black:#060606;--dark:#0A0A08;
-  --surface:#121210;--surface2:#181816;
-  --border:rgba(201,168,76,0.1);--border-bright:rgba(201,168,76,0.28);
-  --text:#F0EDE6;--text-muted:#B8B0A0;--text-mid:#D0C8B8;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
-body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.032;pointer-events:none;z-index:9990;}
-#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
-#cursorRing{position:fixed;width:40px;height:40px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.23,1,.32,1),height .4s cubic-bezier(.23,1,.32,1),border-color .3s;}
-body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:16px;height:16px;}
-body:has(a:hover) #cursorRing,body:has(button:hover) #cursorRing{width:64px;height:64px;border-color:rgba(201,168,76,.7);}
-#progressBar{position:fixed;top:0;left:0;z-index:200;height:2px;width:0%;background:linear-gradient(to right,var(--gold-dim),var(--gold));transition:width .1s linear;}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;background:rgba(6,6,6,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
-.nav-logo{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;}
-.nav-links{display:flex;gap:44px;list-style:none;}
-.nav-links a{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .3s;}
-.nav-links a:hover,.nav-links a.active{color:var(--gold);}
-.nav-cta{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-bright);padding:10px 24px;text-decoration:none;transition:all .35s ease;position:relative;overflow:hidden;}
-.nav-cta::before{content:"";position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .35s ease;z-index:-1;}
-.nav-cta:hover{color:var(--black);}
-.nav-cta:hover::before{transform:translateX(0);}
-
-/* HERO */
-.blog-hero{min-height:50vh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 80px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
-.blog-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--dark) 0%,var(--black) 70%);z-index:0;}
-.blog-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px;z-index:1;mask-image:linear-gradient(to bottom,transparent 0%,black 30%,black 70%,transparent 100%);}
-.blog-hero-glow{position:absolute;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);z-index:1;pointer-events:none;}
-.blog-hero-content{position:relative;z-index:2;max-width:760px;}
-.blog-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
-.blog-tag::before{content:"";display:block;width:28px;height:1px;background:var(--gold);}
-.blog-title{font-family:"Cormorant Garamond",serif;font-size:clamp(48px,6vw,88px);font-weight:300;line-height:.95;letter-spacing:-.02em;color:var(--text);margin-bottom:24px;}
-.blog-title em{font-style:italic;color:var(--gold);}
-.blog-sub{font-size:16px;line-height:1.8;color:var(--text-muted);max-width:560px;}
-
-/* POSTS GRID */
-.blog-body{padding:80px;background:var(--black);}
-.blog-filter{display:flex;gap:12px;margin-bottom:60px;flex-wrap:wrap;}
-.filter-btn{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:8px 20px;background:none;cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .3s;}
-.filter-btn:hover,.filter-btn.active{color:var(--gold);border-color:var(--border-bright);}
-.posts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);}
-.post-card{background:var(--dark);padding:52px 48px;text-decoration:none;display:block;position:relative;overflow:hidden;transition:background .4s;}
-.post-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
-.post-card::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 0% 100%,rgba(201,168,76,0.06) 0%,transparent 60%);opacity:0;transition:opacity .4s ease;}
-.post-card:hover{background:var(--surface);}
-.post-card:hover::before{transform:scaleX(1);}
-.post-card:hover::after{opacity:1;}
-.post-card-meta{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
-.post-card-topic{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);position:relative;z-index:1;}
-.post-card-dot{width:3px;height:3px;border-radius:50%;background:var(--gold-dim);}
-.post-card-date{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);position:relative;z-index:1;}
-.post-card h2{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,2.5vw,36px);font-weight:300;line-height:1.15;color:var(--text);margin-bottom:16px;position:relative;z-index:1;transition:color .3s;}
-.post-card h2 em{font-style:italic;color:var(--gold);}
-.post-card:hover h2{color:var(--text);}
-.post-card p{font-size:14px;line-height:1.8;color:var(--text-muted);margin-bottom:32px;position:relative;z-index:1;}
-.post-card-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:20px;position:relative;z-index:1;}
-.post-card-read{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);}
-.post-card-arrow{font-size:18px;color:var(--gold-dim);transition:transform .3s ease,color .3s;}
-.post-card:hover .post-card-arrow{transform:translateX(6px);color:var(--gold);}
-
-/* FEATURED post - spans full width */
-.post-card.featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-.post-card.featured h2{font-size:clamp(32px,3.5vw,52px);}
-.post-card.featured .featured-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:12px;}
-.post-card.featured .featured-label::before{content:"";display:block;width:24px;height:1px;background:var(--gold);}
-
-/* COMING SOON card */
-.post-card.coming-soon{opacity:0.5;cursor:default;}
-.post-card.coming-soon:hover{background:var(--dark);}
-.post-card.coming-soon::before{display:none;}
-.coming-soon-badge{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:4px 12px;display:inline-block;margin-bottom:16px;}
-
-/* NEWSLETTER */
-.newsletter{padding:80px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;position:relative;overflow:hidden;}
-.newsletter::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);pointer-events:none;}
-.newsletter h2{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3vw,48px);font-weight:300;color:var(--text);margin-bottom:12px;position:relative;z-index:1;}
-.newsletter h2 em{font-style:italic;color:var(--gold);}
-.newsletter p{font-size:15px;color:var(--text-muted);margin-bottom:36px;position:relative;z-index:1;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7;}
-.newsletter-form{display:flex;gap:0;max-width:440px;margin:0 auto;position:relative;z-index:1;}
-.newsletter-form input{flex:1;background:var(--dark);border:1px solid var(--border-bright);border-right:none;color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;padding:14px 20px;outline:none;}
-.newsletter-form input::placeholder{color:var(--text-muted);}
-.newsletter-form button{background:var(--gold);color:var(--black);border:none;font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 28px;cursor:pointer;font-weight:500;transition:background .3s;white-space:nowrap;}
-.newsletter-form button:hover{background:var(--gold-light);}
-
-/* FOOTER */
-footer{padding:40px 80px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--dark);}
-.footer-logo{font-family:"Cormorant Garamond",serif;font-size:16px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
-.footer-copy{font-size:11px;color:var(--text-muted);}
-.footer-links{display:flex;gap:32px;list-style:none;}
-.footer-links a{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .3s;}
-.footer-links a:hover{color:var(--gold);}
-
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-delay-1{transition-delay:.1s;}
-.reveal-delay-2{transition-delay:.2s;}
-
-@media(max-width:900px){
-  nav{padding:18px 24px;} .nav-links{display:none;}
-  .blog-hero{padding:120px 28px 60px;}
-  .blog-body{padding:40px 28px;}
-  .posts-grid{grid-template-columns:1fr;}
-  .post-card.featured{grid-template-columns:1fr;gap:0;}
-  .newsletter{padding:60px 28px;}
-  .newsletter-form{flex-direction:column;}
-  .newsletter-form input{border-right:1px solid var(--border-bright);border-bottom:none;}
-  footer{flex-direction:column;gap:20px;text-align:center;padding:40px 28px;}
-  .footer-links{flex-wrap:wrap;justify-content:center;}
-}
-</style>
-</head>
-<body>
-<div id="progressBar"></div>
-<div id="cursor"></div>
-<div id="cursorRing"></div>
-
-<nav>
-  <a href="/" class="nav-logo">Robbie Hodge</a>
-  <ul class="nav-links">
-    <li><a href="/#about">About</a></li>
-    <li><a href="/#services">Advisory</a></li>
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/blog/" class="active">Blog</a></li>
-    <li><a href="/#contact">Contact</a></li>
-  </ul>
-  <a href="/#contact" class="nav-cta">Work Together</a>
-</nav>
-
-<!-- HERO -->
-<section class="blog-hero">
-  <div class="blog-hero-bg"></div>
-  <div class="blog-hero-grid"></div>
-  <div class="blog-hero-glow"></div>
-  <div class="blog-hero-content">
-    <div class="blog-tag">Thoughts &nbsp;&middot;&nbsp; Strategy &nbsp;&middot;&nbsp; Growth</div>
-    <h1 class="blog-title">Marketing that<br><em>actually works.</em></h1>
-    <p class="blog-sub">Real talk on growth strategy, marketing infrastructure, and what it actually takes to build brands people care about. No fluff. No vanity metrics. Just what moves the needle.</p>
-  </div>
-</section>
-
-<!-- POSTS -->
-<div class="blog-body">
-  <div class="blog-filter">
-    <button class="filter-btn active">All</button>
-    <button class="filter-btn">Marketing Stack</button>
-    <button class="filter-btn">Outbound</button>
-    <button class="filter-btn">eCommerce</button>
-    <button class="filter-btn">Leadership</button>
-  </div>
-
-  <div class="posts-grid">
-
-    <!-- FEATURED POST -->
-    <a href="/blog/apollo-hubspot-outbound-stack/" class="post-card featured reveal">
-      <div>
-        <div class="featured-label">Featured Post</div>
-        <div class="post-card-meta">
-          <span class="post-card-topic">Marketing Stack &middot; Outbound</span>
-          <div class="post-card-dot"></div>
-          <span class="post-card-date">August 2026</span>
-        </div>
-        <h2>How I Use Apollo and HubSpot to Fill My Pipeline <em>on Autopilot.</em></h2>
-        <p>The exact outbound stack I built to identify website visitors, build targeted lists, and get personalized messages into the right inboxes &mdash; without a sales team or a massive budget.</p>
-        <div class="post-card-footer">
-          <span class="post-card-read">8 min read</span>
-          <span class="post-card-arrow">&rarr;</span>
-        </div>
-      </div>
-      <div style="border-left:1px solid var(--border);padding-left:60px;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--text-muted);line-height:1.8;margin-bottom:32px;">&ldquo;The best outbound is not cold. It is warm outbound &mdash; reaching people who already know you exist, with a message that proves you understand their problem.&rdquo;</div>
-        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);">Topics covered</div>
-        <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
-          <div style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:10px;"><span style="color:var(--gold);">&#9670;</span> Apollo visitor identification</div>
-          <div style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:10px;"><span style="color:var(--gold);">&#9670;</span> HubSpot sequence setup</div>
-          <div style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:10px;"><span style="color:var(--gold);">&#9670;</span> ICP definition and filtering</div>
-          <div style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:10px;"><span style="color:var(--gold);">&#9670;</span> Email deliverability</div>
-          <div style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:10px;"><span style="color:var(--gold);">&#9670;</span> Results and what to watch out for</div>
-        </div>
-      </div>
-    </a>
-
-    <!-- COMING SOON POSTS -->
-    <div class="post-card coming-soon reveal reveal-delay-1">
-      <div class="coming-soon-badge">Coming Soon</div>
-      <div class="post-card-meta">
-        <span class="post-card-topic">eCommerce</span>
-      </div>
-      <h2>Why Content-Led Growth Beats Paid Acquisition <em>Every Time.</em></h2>
-      <p>The compounding math behind content marketing that most brands ignore until it&rsquo;s too late &mdash; and how to build the engine that gets cheaper over time while paid only gets more expensive.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">Coming soon</span>
-        <span class="post-card-arrow" style="opacity:0.3;">&rarr;</span>
-      </div>
-    </div>
-
-    <div class="post-card coming-soon reveal reveal-delay-2">
-      <div class="coming-soon-badge">Coming Soon</div>
-      <div class="post-card-meta">
-        <span class="post-card-topic">Leadership</span>
-      </div>
-      <h2>The First 90 Days as a <em>Fractional CMO.</em></h2>
-      <p>What I actually do in the first three months of a fractional engagement &mdash; the audit, the roadmap, the quick wins, and how to build trust with a team that didn&rsquo;t hire you.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">Coming soon</span>
-        <span class="post-card-arrow" style="opacity:0.3;">&rarr;</span>
-      </div>
-    </div>
-
-    <div class="post-card coming-soon reveal">
-      <div class="coming-soon-badge">Coming Soon</div>
-      <div class="post-card-meta">
-        <span class="post-card-topic">Marketing Stack</span>
-      </div>
-      <h2>The Marketing Tech Stack I Actually <em>Recommend.</em></h2>
-      <p>After 18+ years building marketing functions, here are the tools I put in place at every company I work with &mdash; and the ones I always rip out.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">Coming soon</span>
-        <span class="post-card-arrow" style="opacity:0.3;">&rarr;</span>
-      </div>
-    </div>
-
-    <div class="post-card coming-soon reveal reveal-delay-1">
-      <div class="coming-soon-badge">Coming Soon</div>
-      <div class="post-card-meta">
-        <span class="post-card-topic">eCommerce</span>
-      </div>
-      <h2>How We Built a 1.6M Subscriber YouTube Channel <em>from Zero.</em></h2>
-      <p>The content strategy, publishing cadence, and conversion architecture behind one of the largest specialty retail YouTube channels in the country.</p>
-      <div class="post-card-footer">
-        <span class="post-card-read">Coming soon</span>
-        <span class="post-card-arrow" style="opacity:0.3;">&rarr;</span>
+      <div class="soon-footer">
+        <span>In progress</span>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- NEWSLETTER -->
-<section class="newsletter reveal">
-  <h2>Get the next post<br><em>before everyone else.</em></h2>
-  <p>New posts on marketing strategy, growth systems, and leadership. No cadence promises. Just good thinking when it is ready.</p>
-  <form class="newsletter-form" onsubmit="handleNewsletter(event)">
-    <input type="email" placeholder="your@email.com" required>
-    <button type="submit">Subscribe</button>
-  </form>
+<section class="blog-cta">
+  <h2>Want to work together<br>on <em>your growth?</em></h2>
+  <p>If this kind of thinking is what you need driving your marketing, let&rsquo;s talk.</p>
+  <a href="/#contact" class="btn">Start a Conversation</a>
 </section>
 
 <footer>
@@ -510,36 +212,37 @@ footer{padding:40px 80px;border-top:1px solid var(--border);display:flex;align-i
     <li><a href="/#services">Advisory</a></li>
     <li><a href="/blog/">Blog</a></li>
     <li><a href="/#contact">Contact</a></li>
-    <li><a href="mailto:me@robbiehodge.com">Email</a></li>
   </ul>
 </footer>
 
 <script>
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
-let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
-(function ar(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
-window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(s/h*100)+'%';});
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.07});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// CURSOR - clean implementation
+var cur = document.getElementById('cur');
+var ring = document.getElementById('cur-ring');
+var mx = 0, my = 0, rx = 0, ry = 0;
 
-// Filter buttons (visual only for now)
-document.querySelectorAll('.filter-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-  });
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX;
+  my = e.clientY;
+  cur.style.transform = 'translate(' + (mx - 4) + 'px,' + (my - 4) + 'px)';
 });
 
-function handleNewsletter(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('button');
-  btn.textContent = 'You're in!';
-  btn.style.background = '#6BCB77';
-  btn.style.color = '#fff';
-}
+(function animRing() {
+  rx += (mx - rx) * 0.1;
+  ry += (my - ry) * 0.1;
+  ring.style.transform = 'translate(' + (rx - 20) + 'px,' + (ry - 20) + 'px)';
+  requestAnimationFrame(animRing);
+})();
+
+// REVEAL
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 </script>
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPX0MFSJN"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9CPX0MFSJN');gtag('event','page_view',{page_title:'Blog Index',page_location:window.location.href});</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9CPX0MFSJN');</script>
+
 </body>
 </html>
