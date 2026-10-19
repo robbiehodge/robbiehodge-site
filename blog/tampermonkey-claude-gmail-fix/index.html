@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Gmail Search Bar Broke. The Fix Was One Screenshot Away. | Robbie Hodge</title>
+<meta name="description" content="A new ultrawide monitor crammed Gmail's UI until the search bar stopped working. Here's how I fixed it in minutes with Tampermonkey and Claude, no code written by me.">
+<meta property="og:title" content="My Gmail Search Bar Broke. The Fix Was One Screenshot Away.">
+<meta property="og:description" content="A new ultrawide monitor crammed Gmail's UI until the search bar stopped working. Here's how I fixed it in minutes with Tampermonkey and Claude, no code written by me.">
+<meta property="og:image" content="https://robbiehodge.com/images/blog/tampermonkey-claude-gmail-fix.png">
+<meta property="og:url" content="https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "My Gmail Search Bar Broke. The Fix Was One Screenshot Away.",
+  "description": "A new ultrawide monitor crammed Gmail's UI until the search bar stopped working. Here's how I fixed it in minutes with Tampermonkey and Claude, no code written by me.",
+  "image": "https://robbiehodge.com/images/blog/tampermonkey-claude-gmail-fix.png",
+  "datePublished": "2026-10-19",
+  "dateModified": "2026-10-19",
+  "author": {"@type": "Person", "name": "Robbie Hodge", "url": "https://robbiehodge.com"},
+  "publisher": {"@type": "Person", "name": "Robbie Hodge", "url": "https://robbiehodge.com"},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/"}
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:#7A5E28;
+  --black:#060606;--dark:#0A0A08;--surface:#121210;
+  --border:rgba(201,168,76,0.1);--border-bright:rgba(201,168,76,0.28);
+  --text:#F0EDE6;--text-muted:#B8B0A0;--text-mid:#D0C8B8;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;line-height:1.6;cursor:none;overflow-x:hidden;}
+/* custom cursor */
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s ease,opacity .15s ease;}
+.cursor-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .1s ease,left .08s ease,top .08s ease;}
+/* noise overlay */
+.noise{position:fixed;inset:0;pointer-events:none;z-index:9997;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");background-size:200px 200px;}
+/* reading progress */
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));z-index:1000;width:0%;transition:width .1s linear;}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(6,6,6,.9),transparent);}
+.nav-logo{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:300;color:var(--text);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:40px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+/* hero */
+.post-hero{min-height:70vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 48px 80px;position:relative;overflow:hidden;}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;filter:grayscale(20%);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--black) 20%,rgba(6,6,6,.5) 60%,transparent);}
+.hero-content{position:relative;z-index:1;max-width:800px;}
+.post-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
+.post-tag::before{content:"";display:block;width:28px;height:1px;background:var(--gold);}
+.post-title{font-family:"Cormorant Garamond",serif;font-size:clamp(36px,5vw,68px);font-weight:300;line-height:1.02;letter-spacing:-.02em;color:var(--text);margin-bottom:28px;}
+.post-title em{font-style:italic;color:var(--gold);}
+.post-meta{display:flex;gap:40px;border-top:1px solid var(--border);padding-top:28px;flex-wrap:wrap;}
+.post-meta-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.post-meta-value{font-size:13px;color:var(--text-mid);}
+/* body */
+.post-body{max-width:720px;margin:0 auto;padding:80px 40px 120px;}
+.post-body p{font-size:16px;line-height:1.95;color:var(--text-muted);margin-bottom:24px;}
+.post-body p strong{color:var(--text-mid);font-weight:400;}
+.post-body h2{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,3vw,36px);font-weight:300;color:var(--text);margin:56px 0 20px;letter-spacing:-.01em;}
+.post-body h3{font-family:"Cormorant Garamond",serif;font-size:clamp(18px,2.5vw,26px);font-weight:300;color:var(--text-mid);margin:40px 0 16px;letter-spacing:-.01em;}
+.post-body ul,.post-body ol{padding-left:24px;margin-bottom:24px;}
+.post-body li{font-size:16px;line-height:1.85;color:var(--text-muted);margin-bottom:8px;}
+.post-body blockquote{border-left:2px solid var(--gold);padding:20px 28px;margin:40px 0;background:rgba(201,168,76,.04);}
+.post-body blockquote p{color:var(--text-mid);font-style:italic;font-size:17px;margin-bottom:0;}
+.post-body a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.3);transition:border-color .2s;}
+.post-body a:hover{border-color:var(--gold);}
+.post-body hr{border:none;border-top:1px solid var(--border);margin:56px 0;}
+/* inline code */
+.post-body code{font-family:monospace;font-size:13px;background:rgba(201,168,76,.08);color:var(--gold-light);padding:2px 6px;border-radius:3px;}
+/* callout box */
+.callout{background:var(--surface);border:1px solid var(--border-bright);border-radius:4px;padding:28px 32px;margin:40px 0;}
+.callout p{margin-bottom:0;color:var(--text-mid);}
+.callout p:not(:last-child){margin-bottom:12px;}
+/* CTA */
+.post-cta{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:48px;margin:80px 0 0;text-align:center;}
+.post-cta h3{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,3vw,32px);font-weight:300;color:var(--text);margin-bottom:16px;}
+.post-cta p{color:var(--text-muted);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto;}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold);text-decoration:none;background:transparent;cursor:none;transition:background .2s,color .2s;}
+.btn:hover{background:var(--gold);color:var(--black);}
+/* back link */
+.post-back{padding:40px 48px 0;position:relative;z-index:1;}
+.post-back a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color .2s;}
+.post-back a::before{content:"←";}
+.post-back a:hover{color:var(--gold);}
+/* footer */
+footer{padding:80px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
+.footer-copy{font-size:12px;color:var(--text-muted);letter-spacing:.05em;}
+.footer-links{display:flex;gap:32px;}
+.footer-links a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+/* Calendly popup */
+.cal-overlay{position:fixed;inset:0;background:rgba(6,6,6,.85);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.cal-overlay.open{opacity:1;pointer-events:all;}
+.cal-box{background:var(--surface);border:1px solid var(--border-bright);border-radius:4px;padding:48px;max-width:480px;width:90%;text-align:center;position:relative;}
+.cal-box h3{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:300;color:var(--text);margin-bottom:16px;}
+.cal-box p{color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:32px;}
+.cal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--text-muted);font-size:20px;cursor:none;transition:color .2s;}
+.cal-close:hover{color:var(--gold);}
+@media(max-width:768px){
+  nav{padding:20px 24px;}
+  .nav-links{display:none;}
+  .post-hero{padding:100px 24px 60px;min-height:60vh;}
+  .post-body{padding:60px 24px 80px;}
+  .post-back{padding:28px 24px 0;}
+  footer{padding:60px 24px;flex-direction:column;align-items:flex-start;}
+}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPX0MFSJN"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-9CPX0MFSJN');
+</script>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="noise"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Robbie Hodge</a>
+  <ul class="nav-links">
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/blog/">Writing</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="post-back reveal">
+  <a href="/blog/">All Posts</a>
+</div>
+
+<article>
+  <header class="post-hero">
+    <img src="/images/blog/tampermonkey-claude-gmail-fix.png" alt="Gmail search bar fix with Tampermonkey and Claude" class="hero-img">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="post-tag reveal">AI Tools &middot; Productivity</div>
+      <h1 class="post-title reveal">My Gmail Search Bar Broke. The Fix Was <em>One Screenshot Away.</em></h1>
+      <div class="post-meta reveal">
+        <div>
+          <div class="post-meta-label">Published</div>
+          <div class="post-meta-value">October 19, 2026</div>
+        </div>
+        <div>
+          <div class="post-meta-label">Read Time</div>
+          <div class="post-meta-value">4 min read</div>
+        </div>
+        <div>
+          <div class="post-meta-label">Category</div>
+          <div class="post-meta-value">AI Tools &middot; Productivity</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="post-body">
+    <p class="reveal">I got a new ultrawide monitor last week. It's great for everything except, apparently, Gmail.</p>
+
+    <p class="reveal">Something about the extra width crammed Gmail's UI into a layout it wasn't built for. The sidebar expanded. The toolbar shifted. And somewhere in that shuffle, my search bar — the one I use probably 40 times a day — stopped being clickable. The cursor would hover over it, the highlight would appear, and then nothing. Click. Nothing.</p>
+
+    <p class="reveal">I tried the obvious fixes. Zoom levels. Different browsers. Hard refresh. Nothing worked. The search bar was visually there but functionally gone — some invisible element was sitting on top of it, eating my clicks.</p>
+
+    <p class="reveal">My first instinct was to Google it. I found a handful of forum threads from people with similar problems, none with clear solutions. The fixes were either "try a different browser" (already did) or deep dives into Gmail's settings that didn't address a CSS overlay issue.</p>
+
+    <p class="reveal">That's when I decided to just ask Claude.</p>
+
+    <hr class="reveal">
+
+    <h2 class="reveal">The Screenshot Approach</h2>
+
+    <p class="reveal">I took a screenshot of Gmail with the broken search bar visible. I opened Claude, dropped the screenshot in, and described the problem: "My Gmail search bar appears but won't accept clicks on my ultrawide monitor. Something seems to be covering it. Can you help me write a Tampermonkey script to fix it?"</p>
+
+    <p class="reveal">Claude identified the likely culprit immediately: a <code>z-index</code> stacking issue combined with a misaligned overlay element at ultrawide widths. Gmail's CSS wasn't tested at 3440px wide, and something was rendering on top of the search input without being visible.</p>
+
+    <p class="reveal">The response included a complete Tampermonkey userscript — ready to paste, no modifications needed.</p>
+
+    <div class="callout reveal">
+      <p><strong>What is Tampermonkey?</strong> It's a browser extension that lets you run custom JavaScript on any website. You install it once, then you can add scripts that modify how pages look or behave. It's one of the most useful power-user tools on the web — and you don't need to write code to use it if Claude writes the scripts for you.</p>
+    </div>
+
+    <hr class="reveal">
+
+    <h2 class="reveal">The Fix, Step by Step</h2>
+
+    <p class="reveal">Here's exactly what I did:</p>
+
+    <ol class="reveal">
+      <li>Installed Tampermonkey in Chrome (took about 45 seconds)</li>
+      <li>Opened the Tampermonkey dashboard and clicked "Create a new script"</li>
+      <li>Pasted the script Claude gave me</li>
+      <li>Saved it and reloaded Gmail</li>
+    </ol>
+
+    <p class="reveal">The search bar worked immediately. Total time from "this is broken" to "this is fixed": under five minutes.</p>
+
+    <p class="reveal">The script Claude wrote did two things. First, it identified the offending overlay element by its Gmail-specific class and corrected its <code>z-index</code>. Second, it added a <code>pointer-events: none</code> rule to any elements that were visually hidden but still intercepting clicks at my screen width. Clean, targeted, reversible.</p>
+
+    <hr class="reveal">
+
+    <h2 class="reveal">Why This Matters Beyond Gmail</h2>
+
+    <p class="reveal">The Gmail thing was a small problem. But the pattern it revealed is one I've started applying everywhere.</p>
+
+    <p class="reveal">Before AI tools, "fix a broken UI element" required either technical knowledge to inspect the DOM and write CSS overrides yourself, or waiting for the software vendor to patch it (Gmail still hasn't, by the way). Now it requires a screenshot and a sentence.</p>
+
+    <p class="reveal">I've since used the same approach to:</p>
+
+    <ul class="reveal">
+      <li>Remove an annoying promotional banner from a SaaS tool I use daily</li>
+      <li>Fix a date picker that rendered off-screen in a project management app</li>
+      <li>Add keyboard shortcuts to a web app that didn't have them</li>
+      <li>Auto-collapse a sidebar that kept reopening every time I navigated</li>
+    </ul>
+
+    <p class="reveal">None of these required me to write a single line of code. I described the problem, shared a screenshot when useful, and Claude provided a ready-to-run Tampermonkey script each time.</p>
+
+    <hr class="reveal">
+
+    <h2 class="reveal">The Broader Shift</h2>
+
+    <p class="reveal">There's a version of this story that's just "AI is useful for debugging." But I think it's actually about something more specific: <strong>AI collapses the distance between identifying a problem and fixing it</strong> for people who aren't developers.</p>
+
+    <p class="reveal">The traditional path was: notice problem → Google it → find a forum thread → follow instructions that may or may not apply → give up or find someone technical. The new path is: notice problem → describe it to Claude → fix it.</p>
+
+    <p class="reveal">Tampermonkey is a good example of a tool that existed for years but stayed in the "power user" category because writing JavaScript was a barrier. That barrier is essentially gone now. The tool didn't change — the access to it did.</p>
+
+    <p class="reveal">I expect we'll see a lot more of this. Tools that were technically available to anyone but practically available only to developers are becoming available to everyone. The unlock isn't new capabilities — it's removed friction.</p>
+
+    <blockquote class="reveal">
+      <p>The search bar fix took five minutes. The realization that I now have a general-purpose UI repair tool in my browser took a little longer to sink in.</p>
+    </blockquote>
+
+    <hr class="reveal">
+
+    <h2 class="reveal">What You Need to Try This</h2>
+
+    <p class="reveal">If you want to use this approach for your own UI frustrations:</p>
+
+    <ul class="reveal">
+      <li><strong>Tampermonkey</strong> — free browser extension, works in Chrome, Firefox, Safari, Edge</li>
+      <li><strong>Claude</strong> — describe your problem, include a screenshot if the issue is visual, ask for a Tampermonkey script</li>
+      <li><strong>That's it</strong> — no coding knowledge required, scripts are sandboxed to specific websites, and you can disable or delete them instantly</li>
+    </ul>
+
+    <p class="reveal">The main thing to know about Tampermonkey scripts from Claude: they're site-specific. A script you add for Gmail only runs on Gmail. If Claude's first attempt doesn't fully fix the issue, describe what's still broken and ask for a revision — usually one or two iterations gets it right.</p>
+
+    <p class="reveal">Your ultrawide monitor thanks you in advance.</p>
+
+    <div class="post-cta reveal">
+      <h3>Working through something similar?</h3>
+      <p>I'm always interested in the small friction points that slow people down. If you've got a tool or workflow problem that feels unsolvable, let's talk.</p>
+      <a href="https://calendly.com/robbiehodge/chat" class="btn" target="_blank" rel="noopener">Schedule a conversation &rarr;</a>
+    </div>
+  </div>
+</article>
+
+<footer>
+  <div class="footer-copy">&copy; 2026 Robbie Hodge. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="/blog/">Writing</a>
+    <a href="https://linkedin.com/in/robbiehodge" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://twitter.com/robbiehodge" target="_blank" rel="noopener">Twitter</a>
+  </div>
+</footer>
+
+<!-- Calendly popup -->
+<div class="cal-overlay" id="calOverlay">
+  <div class="cal-box">
+    <button class="cal-close" id="calClose" aria-label="Close">&times;</button>
+    <h3>Let's Talk</h3>
+    <p>I work with founders and operators on growth, go-to-market, and using AI to move faster. If that sounds useful, grab 30 minutes.</p>
+    <a href="https://calendly.com/robbiehodge/chat" class="btn" target="_blank" rel="noopener" onclick="document.getElementById('calOverlay').classList.remove('open')">Book a Call &rarr;</a>
+  </div>
+</div>
+
+<script>
+// Custom cursor
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';
+  cursor.style.top=e.clientY+'px';
+  ring.style.left=e.clientX+'px';
+  ring.style.top=e.clientY+'px';
+});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2)';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';});
+});
+
+// Reading progress
+const bar=document.getElementById('progressBar');
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  bar.style.width=Math.min(pct,100)+'%';
+});
+
+// Reveal on scroll
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// Calendly popup - 7s delay, once per session
+if(!sessionStorage.getItem('cal_shown')){
+  setTimeout(()=>{
+    document.getElementById('calOverlay').classList.add('open');
+    sessionStorage.setItem('cal_shown','1');
+  },7000);
+}
+document.getElementById('calClose').addEventListener('click',()=>{
+  document.getElementById('calOverlay').classList.remove('open');
+});
+document.getElementById('calOverlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('calOverlay')){
+    document.getElementById('calOverlay').classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>
