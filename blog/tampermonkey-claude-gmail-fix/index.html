@@ -316,10 +316,10 @@ gtag('config','G-9CPX0MFSJN');
 
   </div>
 
-  <div class="post-cta reveal">
+  post-cta reveal">
       <h3>Working through something similar?</h3>
       <p>I'm always interested in the small friction points that slow people down. If you've got a tool or workflow problem that feels unsolvable, let's talk.</p>
-      <a href="https://calendly.com/robbiehodge/chat" class="btn" target="_blank" rel="noopener">Schedule a conversation &rarr;</a>
+      <a href="https://calendly.com/me-robbiehodge/30min" class="btn" target="_blank" rel="noopener">Schedule a conversation &rarr;</a>
     </div>
   </div>
 </article>
@@ -332,16 +332,6 @@ gtag('config','G-9CPX0MFSJN');
     <a href="https://twitter.com/robbiehodge" target="_blank" rel="noopener">Twitter</a>
   </div>
 </footer>
-
-<!-- Calendly popup -->
-<div class="cal-overlay" id="calOverlay">
-  <div class="cal-box">
-    <button class="cal-close" id="calClose" aria-label="Close">&times;</button>
-    <h3>Let's Talk</h3>
-    <p>I work with founders and operators on growth, go-to-market, and using AI to move faster. If that sounds useful, grab 30 minutes.</p>
-    <a href="https://calendly.com/robbiehodge/chat" class="btn" target="_blank" rel="noopener" onclick="document.getElementById('calOverlay').classList.remove('open')">Book a Call &rarr;</a>
-  </div>
-</div>
 
 <script>
 // Custom cursor
@@ -371,21 +361,7 @@ const observer=new IntersectionObserver(entries=>{
 },{threshold:0.12});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-// Calendly popup - 7s delay, once per session
-if(!sessionStorage.getItem('cal_shown')){
-  setTimeout(()=>{
-    document.getElementById('calOverlay').classList.add('open');
-    sessionStorage.setItem('cal_shown','1');
-  },7000);
-}
-document.getElementById('calClose').addEventListener('click',()=>{
-  document.getElementById('calOverlay').classList.remove('open');
-});
-document.getElementById('calOverlay').addEventListener('click',e=>{
-  if(e.target===document.getElementById('calOverlay')){
-    document.getElementById('calOverlay').classList.remove('open');
-  }
-});
 </script>
+<script src="/js/cal-popup.js"></script>
 </body>
 </html>
