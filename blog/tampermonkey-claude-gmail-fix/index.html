@@ -91,7 +91,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 48px;display:fl
 /* back link */
 .post-back{padding:40px 48px 0;position:relative;z-index:1;}
 .post-back a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color .2s;}
-.post-back a::before{content:"←";}
+.post-back a::before{content:"â";}
 .post-back a:hover{color:var(--gold);}
 /* footer */
 footer{padding:80px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
@@ -118,6 +118,10 @@ footer{padding:80px 48px;border-top:1px solid var(--border);display:flex;justify
   .post-back{padding:28px 24px 0;}
   footer{padding:60px 24px;flex-direction:column;align-items:flex-start;}
 }
+
+/* code block */
+.post-body pre{background:rgba(201,168,76,.05);border:1px solid var(--border-bright);border-radius:4px;padding:28px 32px;margin:40px 0;overflow-x:auto;}
+.post-body pre code{font-family:monospace;font-size:13px;line-height:1.7;color:var(--gold-light);background:none;padding:0;border-radius:0;}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPX0MFSJN"></script>
@@ -173,99 +177,146 @@ gtag('config','G-9CPX0MFSJN');
   </header>
 
   <div class="post-body">
-    <p class="reveal">I got a new ultrawide monitor last week. It's great for everything except, apparently, Gmail.</p>
+    <p class="reveal">I got a new ultrawide monitor last week. It&rsquo;s great for everything except, apparently, Gmail. Something about the extra width crammed Gmail&rsquo;s UI into a layout it wasn&rsquo;t designed for. The sidebar expanded. The toolbar shifted. And the &ldquo;Ask Gmail&rdquo; search input &mdash; the one I use probably 40 times a day &mdash; shrank into something barely clickable.</p>
 
-    <p class="reveal">Something about the extra width crammed Gmail's UI into a layout it wasn't built for. The sidebar expanded. The toolbar shifted. And somewhere in that shuffle, my search bar — the one I use probably 40 times a day — stopped being clickable. The cursor would hover over it, the highlight would appear, and then nothing. Click. Nothing.</p>
+    <p class="reveal">But that wasn&rsquo;t the only problem. Gmail&rsquo;s header at that width was <em>packed</em>: Gemini buttons, a Studio link, Support icons, an Upgrade prompt. All fighting for space in the same toolbar. None of them things I use. All of them making it harder to get to the thing I actually needed.</p>
 
-    <p class="reveal">I tried the obvious fixes. Zoom levels. Different browsers. Hard refresh. Nothing worked. The search bar was visually there but functionally gone — some invisible element was sitting on top of it, eating my clicks.</p>
-
-    <p class="reveal">My first instinct was to Google it. I found a handful of forum threads from people with similar problems, none with clear solutions. The fixes were either "try a different browser" (already did) or deep dives into Gmail's settings that didn't address a CSS overlay issue.</p>
-
-    <p class="reveal">That's when I decided to just ask Claude.</p>
-
-    <hr class="reveal">
+    <p class="reveal">I tried the obvious fixes. Zoom levels. Different browsers. Hard refresh. The layout issues persisted. So I decided to just ask Claude.</p>
 
     <h2 class="reveal">The Screenshot Approach</h2>
 
-    <p class="reveal">I took a screenshot of Gmail with the broken search bar visible. I opened Claude, dropped the screenshot in, and described the problem: "My Gmail search bar appears but won't accept clicks on my ultrawide monitor. Something seems to be covering it. Can you help me write a Tampermonkey script to fix it?"</p>
+    <p class="reveal">I took a screenshot of Gmail, dropped it into Claude, and said something like: &ldquo;My Gmail header is cluttered and cramped at this width. Can you write a Tampermonkey script that hides the stuff I don&rsquo;t use and widens the search bar?&rdquo;</p>
 
-    <p class="reveal">Claude identified the likely culprit immediately: a <code>z-index</code> stacking issue combined with a misaligned overlay element at ultrawide widths. Gmail's CSS wasn't tested at 3440px wide, and something was rendering on top of the search input without being visible.</p>
+    <p class="reveal">Claude identified the exact elements causing the clutter &mdash; Gemini, Studio, Support, the Upgrade button &mdash; and wrote a script that hides them on load and keeps them hidden as Gmail&rsquo;s single-page app navigates. It also targeted the <code>Ask Gmail</code> input container and forced it to a usable 320px width.</p>
 
-    <p class="reveal">The response included a complete Tampermonkey userscript — ready to paste, no modifications needed.</p>
+    <p class="reveal">The response included a complete Tampermonkey userscript &mdash; ready to paste, no modifications needed.</p>
 
-    <div class="callout reveal">
-      <p><strong>What is Tampermonkey?</strong> It's a browser extension that lets you run custom JavaScript on any website. You install it once, then you can add scripts that modify how pages look or behave. It's one of the most useful power-user tools on the web — and you don't need to write code to use it if Claude writes the scripts for you.</p>
-    </div>
+    <h2 class="reveal">What is Tampermonkey?</h2>
 
-    <hr class="reveal">
+    <p class="reveal">It&rsquo;s a browser extension that lets you run custom JavaScript on any website. You install it once, then you can add scripts that modify how pages look or behave. It&rsquo;s one of the most useful power-user tools on the web &mdash; and you don&rsquo;t need to write code to use it if Claude writes the scripts for you.</p>
+
+    <h2 class="reveal">The Script</h2>
+
+    <p class="reveal">Here&rsquo;s the exact script. Install <a href="https://www.tampermonkey.net/" target="_blank" rel="noopener">Tampermonkey</a>, open its dashboard, click &ldquo;Create a new script,&rdquo; paste this in, and save.</p>
+
+    <pre class="reveal"><code>// ==UserScript==
+// @name         Gmail Narrow Window Cleanup
+// @namespace    robbie-gmail
+// @version      1.2
+// @description  Hides Gmail header clutter and widens Ask Gmail.
+// @match        https://mail.google.com/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+    'use strict';
+
+    function hideElement(el) {
+        if (!el) return;
+        el.style.setProperty('display', 'none', 'important');
+    }
+
+    function widenAskGmail() {
+        const candidates = document.querySelectorAll(
+            '[aria-label*="Ask Gmail"], input[placeholder*="Ask Gmail"], [role="search"]'
+        );
+
+        candidates.forEach(el =&gt; {
+            let container =
+                el.closest('form') ||
+                el.closest('[role="search"]') ||
+                el.parentElement;
+
+            if (!container) return;
+
+            container.style.setProperty('width', '320px', 'important');
+            container.style.setProperty('min-width', '320px', 'important');
+            container.style.setProperty('max-width', '320px', 'important');
+            container.style.setProperty('flex', '0 0 320px', 'important');
+        });
+    }
+
+    function cleanupGmail() {
+        // Hide Help / Support
+        document.querySelectorAll(
+            '[aria-label="Support"], [aria-label*="Help"]'
+        ).forEach(hideElement);
+
+        // Hide Gemini
+        document.querySelectorAll(
+            '[aria-label*="Gemini"], [data-tooltip*="Gemini"], [title*="Gemini"]'
+        ).forEach(hideElement);
+
+        // Hide Studio
+        document.querySelectorAll(
+            '[aria-label*="Studio"], [data-tooltip*="Studio"], [title*="Studio"]'
+        ).forEach(hideElement);
+
+        // Hide Upgrade
+        document.querySelectorAll('a, button, div, span').forEach(el =&gt; {
+            const text = (el.innerText || '').trim();
+            if (text === 'Upgrade') hideElement(el);
+        });
+
+        widenAskGmail();
+    }
+
+    cleanupGmail();
+
+    const observer = new MutationObserver(() =&gt; {
+        cleanupGmail();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
+
+})();</code></pre>
 
     <h2 class="reveal">The Fix, Step by Step</h2>
 
-    <p class="reveal">Here's exactly what I did:</p>
-
+    <p class="reveal">Here&rsquo;s exactly what I did:</p>
     <ol class="reveal">
       <li>Installed Tampermonkey in Chrome (took about 45 seconds)</li>
-      <li>Opened the Tampermonkey dashboard and clicked "Create a new script"</li>
-      <li>Pasted the script Claude gave me</li>
+      <li>Opened the Tampermonkey dashboard and clicked &ldquo;Create a new script&rdquo;</li>
+      <li>Pasted the script above, replacing the default placeholder</li>
       <li>Saved it and reloaded Gmail</li>
     </ol>
 
-    <p class="reveal">The search bar worked immediately. Total time from "this is broken" to "this is fixed": under five minutes.</p>
+    <p class="reveal">The result: Gemini, Studio, Support, and the Upgrade button &mdash; gone. Ask Gmail &mdash; properly sized. The header went from cluttered to clean in under two minutes.</p>
 
-    <p class="reveal">The script Claude wrote did two things. First, it identified the offending overlay element by its Gmail-specific class and corrected its <code>z-index</code>. Second, it added a <code>pointer-events: none</code> rule to any elements that were visually hidden but still intercepting clicks at my screen width. Clean, targeted, reversible.</p>
+    <div class="callout reveal">
+      <p><strong>What the script does, specifically:</strong> It hides the Gemini, Studio, Help/Support, and Upgrade UI elements in Gmail&rsquo;s header. It then finds the Ask Gmail search container and forces it to 320px wide. A <code>MutationObserver</code> re-runs the cleanup whenever Gmail&rsquo;s DOM updates, so it survives navigation between inbox, sent, and labels.</p>
+    </div>
 
-    <hr class="reveal">
+    <h2 class="reveal">Why This Matters</h2>
 
-    <h2 class="reveal">Why This Matters Beyond Gmail</h2>
+    <p class="reveal">Six months ago, fixing a layout problem in a third-party web app required either technical knowledge to inspect the DOM and write CSS overrides yourself, or waiting for the vendor to patch it (Gmail still hasn&rsquo;t, by the way).</p>
 
-    <p class="reveal">The Gmail thing was a small problem. But the pattern it revealed is one I've started applying everywhere.</p>
+    <p class="reveal">Now it requires a screenshot and a sentence.</p>
 
-    <p class="reveal">Before AI tools, "fix a broken UI element" required either technical knowledge to inspect the DOM and write CSS overrides yourself, or waiting for the software vendor to patch it (Gmail still hasn't, by the way). Now it requires a screenshot and a sentence.</p>
-
-    <p class="reveal">I've since used the same approach to:</p>
-
+    <p class="reveal">I&rsquo;ve since used the same approach to:</p>
     <ul class="reveal">
       <li>Remove an annoying promotional banner from a SaaS tool I use daily</li>
       <li>Fix a date picker that rendered off-screen in a project management app</li>
-      <li>Add keyboard shortcuts to a web app that didn't have them</li>
+      <li>Add keyboard shortcuts to a web app that didn&rsquo;t have them</li>
       <li>Auto-collapse a sidebar that kept reopening every time I navigated</li>
     </ul>
 
     <p class="reveal">None of these required me to write a single line of code. I described the problem, shared a screenshot when useful, and Claude provided a ready-to-run Tampermonkey script each time.</p>
 
-    <hr class="reveal">
-
     <h2 class="reveal">The Broader Shift</h2>
 
-    <p class="reveal">There's a version of this story that's just "AI is useful for debugging." But I think it's actually about something more specific: <strong>AI collapses the distance between identifying a problem and fixing it</strong> for people who aren't developers.</p>
+    <p class="reveal">There&rsquo;s a version of this story that&rsquo;s just &ldquo;AI is useful for debugging.&rdquo; But I think it&rsquo;s actually about something more specific: AI collapses the distance between identifying a problem and fixing it for people who aren&rsquo;t developers.</p>
 
-    <p class="reveal">The traditional path was: notice problem → Google it → find a forum thread → follow instructions that may or may not apply → give up or find someone technical. The new path is: notice problem → describe it to Claude → fix it.</p>
+    <p class="reveal">The traditional path was: notice problem &rarr; Google it &rarr; find forum thread &rarr; realize no solution exists &rarr; give up or pay someone. The new path is: notice problem &rarr; describe it to Claude &rarr; paste the script &rarr; done.</p>
 
-    <p class="reveal">Tampermonkey is a good example of a tool that existed for years but stayed in the "power user" category because writing JavaScript was a barrier. That barrier is essentially gone now. The tool didn't change — the access to it did.</p>
+    <p class="reveal">The screenshot was the interface. The Tampermonkey script was the output. The whole thing took less time than writing this paragraph.</p>
 
-    <p class="reveal">I expect we'll see a lot more of this. Tools that were technically available to anyone but practically available only to developers are becoming available to everyone. The unlock isn't new capabilities — it's removed friction.</p>
+  </div>
 
-    <blockquote class="reveal">
-      <p>The search bar fix took five minutes. The realization that I now have a general-purpose UI repair tool in my browser took a little longer to sink in.</p>
-    </blockquote>
-
-    <hr class="reveal">
-
-    <h2 class="reveal">What You Need to Try This</h2>
-
-    <p class="reveal">If you want to use this approach for your own UI frustrations:</p>
-
-    <ul class="reveal">
-      <li><strong>Tampermonkey</strong> — free browser extension, works in Chrome, Firefox, Safari, Edge</li>
-      <li><strong>Claude</strong> — describe your problem, include a screenshot if the issue is visual, ask for a Tampermonkey script</li>
-      <li><strong>That's it</strong> — no coding knowledge required, scripts are sandboxed to specific websites, and you can disable or delete them instantly</li>
-    </ul>
-
-    <p class="reveal">The main thing to know about Tampermonkey scripts from Claude: they're site-specific. A script you add for Gmail only runs on Gmail. If Claude's first attempt doesn't fully fix the issue, describe what's still broken and ask for a revision — usually one or two iterations gets it right.</p>
-
-    <p class="reveal">Your ultrawide monitor thanks you in advance.</p>
-
-    <div class="post-cta reveal">
+  post-cta reveal">
       <h3>Working through something similar?</h3>
       <p>I'm always interested in the small friction points that slow people down. If you've got a tool or workflow problem that feels unsolvable, let's talk.</p>
       <a href="https://calendly.com/robbiehodge/chat" class="btn" target="_blank" rel="noopener">Schedule a conversation &rarr;</a>
