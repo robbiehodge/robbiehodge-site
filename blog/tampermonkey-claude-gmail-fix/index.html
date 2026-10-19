@@ -1,20 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
+<!-- Apollo -->
+<script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"6aa9b9d62eccc80018d566b9"})},document.head.appendChild(o)}initApollo();</script>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>My Gmail Search Bar Broke. The Fix Was One Screenshot Away. | Robbie Hodge</title>
-<meta name="description" content="A new ultrawide monitor crammed Gmail's UI until the search bar stopped working. Here's how I fixed it in minutes with Tampermonkey and Claude, no code written by me.">
-<meta property="og:title" content="My Gmail Search Bar Broke. The Fix Was One Screenshot Away.">
-<meta property="og:description" content="A new ultrawide monitor crammed Gmail's UI until the search bar stopped working. Here's how I fixed it in minutes with Tampermonkey and Claude, no code written by me.">
-<meta property="og:image" content="https://robbiehodge.com/images/blog/tampermonkey-claude-gmail-fix.png">
-<meta property="og:url" content="https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+
+
+
+
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script type="application/ld+json">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:#7A5E28;--gold-glow:rgba(201,168,76,0.12);--black:#060606;--dark:#0A0A08;--surface:#121210;--surface2:#181816;--border:rgba(201,168,76,0.1);--border-bright:rgba(201,168,76,0.28);--text:#F0EDE6;--text-muted:#B8B0A0;--text-mid:#D0C8B8;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.032;pointer-events:none;z-index:9990;}
+#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+#cursorRing{position:fixed;width:40px;height:40px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.23,1,.32,1),height .4s cubic-bezier(.23,1,.32,1),border-color .3s;}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:16px;height:16px;}
+body:has(a:hover) #cursorRing,body:has(button:hover) #cursorRing{width:64px;height:64px;border-color:rgba(201,168,76,.7);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;background:rgba(6,6,6,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;}
+.nav-links{display:flex;gap:44px;list-style:none;}
+.nav-links a{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-bright);padding:10px 24px;text-decoration:none;transition:all .35s ease;position:relative;overflow:hidden;}
+.nav-cta::before{content:"";position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .35s ease;z-index:-1;}
+.nav-cta:hover{color:var(--black);}
+.nav-cta:hover::before{transform:translateX(0);}
+#progressBar{position:fixed;top:0;left:0;z-index:200;height:2px;width:0%;background:linear-gradient(to right,var(--gold-dim),var(--gold));transition:width .1s linear;}
+
+/* HERO */
+.post-hero{min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 80px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.post-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--dark) 0%,var(--black) 70%);z-index:0;}
+.post-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px;z-index:1;mask-image:linear-gradient(to bottom,transparent 0%,black 30%,black 70%,transparent 100%);}
+.post-hero-content{position:relative;z-index:2;max-width:760px;}
+.post-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
+.post-tag::before{content:"";display:block;width:28px;height:1px;background:var(--gold);}
+.post-title{font-family:"Cormorant Garamond",serif;font-size:clamp(36px,5vw,72px);font-weight:300;line-height:1.0;letter-spacing:-.02em;color:var(--text);margin-bottom:28px;}
+.post-title em{font-style:italic;color:var(--gold);}
+.post-meta{display:flex;gap:40px;border-top:1px solid var(--border);padding-top:28px;flex-wrap:wrap;}
+.post-meta-item{}
+.post-meta-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.post-meta-value{font-size:13px;color:var(--text-mid);}
+
+/* BODY */
+.post-body{max-width:720px;margin:0 auto;padding:80px 40px 120px;}
+.post-body p{font-size:16px;line-height:1.95;color:#C8C0B0;margin-bottom:24px;}
+.post-body p strong{color:var(--text-mid);font-weight:400;}
+.post-body p em{color:var(--text-mid);font-style:italic;}
+.post-body a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);transition:border-color .3s;}
+.post-body a:hover{border-color:var(--gold);}
+
+h2.post-h2{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3vw,44px);font-weight:300;line-height:1.1;letter-spacing:-.01em;color:var(--text);margin:64px 0 20px;}
+h2.post-h2 em{font-style:italic;color:var(--gold);}
+h3.post-h3{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,2.2vw,30px);font-weight:400;color:var(--text);margin:44px 0 16px;line-height:1.2;}
+
+.post-pull{border-left:2px solid var(--gold);padding:28px 36px;margin:48px 0;background:var(--surface);}
+.post-pull p{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,2.2vw,28px);font-weight:300;font-style:italic;color:var(--text-mid);line-height:1.5;margin:0;}
+
+.post-callout{border:1px solid var(--border);padding:32px;margin:40px 0;background:var(--surface);position:relative;}
+.post-callout::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold),var(--gold-dim));}
+.post-callout-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.post-callout p{font-size:14px;line-height:1.75;color:#C0B8A8;margin:0;}
+
+.post-steps{border:1px solid var(--border);margin:40px 0;}
+.post-step{padding:24px 32px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:24px;transition:background .3s,padding-left .3s;position:relative;}
+.post-step:last-child{border-bottom:none;}
+.post-step:hover{background:var(--surface2);padding-left:40px;}
+.post-step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .4s ease;}
+.post-step:hover::before{transform:scaleY(1);}
+.post-step-num{font-family:"Cormorant Garamond",serif;font-size:13px;color:var(--gold-dim);min-width:28px;padding-top:2px;}
+.post-step-content h4{font-size:13px;font-weight:500;letter-spacing:.06em;color:var(--text);margin-bottom:6px;}
+.post-step-content p{font-size:13px;color:#B8B0A0;line-height:1.65;margin:0;}
+
+.post-divider{display:flex;align-items:center;gap:20px;margin:56px 0;color:var(--gold-dim);font-size:8px;letter-spacing:.4em;}
+.post-divider::before,.post-divider::after{content:"";flex:1;height:1px;background:var(--border);}
+
+/* CTA */
+.post-cta{background:var(--surface);border:1px solid var(--border);padding:52px;text-align:center;margin-top:80px;position:relative;overflow:hidden;}
+.post-cta::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold),var(--gold-dim));}
+.post-cta h3{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,2.5vw,36px);font-weight:300;color:var(--text);margin-bottom:12px;line-height:1.2;}
+.post-cta h3 em{font-style:italic;color:var(--gold);}
+.post-cta p{font-size:14px;color:#C0B8A8;margin-bottom:32px;line-height:1.7;}
+.btn-primary{background:var(--gold);color:var(--black);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:16px 36px;text-decoration:none;font-weight:500;display:inline-block;transition:background .3s;border:none;font-family:"DM Sans",sans-serif;}
+.btn-primary:hover{background:var(--gold-light);}
+
+/* FOOTER */
+footer{padding:40px 80px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--dark);}
+.footer-logo{font-family:"Cormorant Garamond",serif;font-size:16px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
+.footer-copy{font-size:11px;color:var(--text-muted);}
+.footer-links{display:flex;gap:32px;list-style:none;}
+.footer-links a{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.footer-links a:hover{color:var(--gold);}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  nav{padding:18px 24px;} .nav-links{display:none;}
+  .post-hero{padding:120px 28px 60px;}
+  .post-body{padding:60px 28px 80px;}
+  .post-meta{gap:24px;}
+  footer{flex-direction:column;gap:20px;text-align:center;padding:40px 28px;}
+  .footer-links{flex-wrap:wrap;justify-content:center;}
+  .post-cta{padding:36px 28px;}
+}
+</style>
+<title>My Gmail Search Bar Broke. The Fix Was One Screenshot Away. | Robbie Hodge</title><meta name="description" content="A new ultrawide monitor crammed Gmail's UI until the search bar stopped working. Here's how I fixed it in minutes with Tampermonkey and Claude, no code written by me."><meta property="og:title" content="My Gmail Search Bar Broke. The Fix Was One Screenshot Away."><meta property="og:description" content="A new ultrawide monitor crammed Gmail's UI until the search bar stopped working. Here's how I fixed it in minutes with Tampermonkey and Claude, no code written by me."><meta property="og:image" content="https://robbiehodge.com/images/blog/tampermonkey-claude-gmail-fix.png"><meta property="og:url" content="https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/"><script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -27,179 +131,62 @@
   "publisher": {"@type": "Person", "name": "Robbie Hodge", "url": "https://robbiehodge.com"},
   "mainEntityOfPage": {"@type": "WebPage", "@id": "https://robbiehodge.com/blog/tampermonkey-claude-gmail-fix/"}
 }
-</script>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:#7A5E28;
-  --black:#060606;--dark:#0A0A08;--surface:#121210;
-  --border:rgba(201,168,76,0.1);--border-bright:rgba(201,168,76,0.28);
-  --text:#F0EDE6;--text-muted:#B8B0A0;--text-mid:#D0C8B8;
-}
-html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;line-height:1.6;cursor:none;overflow-x:hidden;}
-/* custom cursor */
-.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s ease,opacity .15s ease;}
-.cursor-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .1s ease,left .08s ease,top .08s ease;}
-/* noise overlay */
-.noise{position:fixed;inset:0;pointer-events:none;z-index:9997;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");background-size:200px 200px;}
-/* reading progress */
-.progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));z-index:1000;width:0%;transition:width .1s linear;}
-/* nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(6,6,6,.9),transparent);}
-.nav-logo{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:300;color:var(--text);text-decoration:none;letter-spacing:.05em;}
-.nav-links{display:flex;gap:40px;list-style:none;}
-.nav-links a{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;}
-.nav-links a:hover{color:var(--gold);}
-/* hero */
-.post-hero{min-height:70vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 48px 80px;position:relative;overflow:hidden;}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;filter:grayscale(20%);}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--black) 20%,rgba(6,6,6,.5) 60%,transparent);}
-.hero-content{position:relative;z-index:1;max-width:800px;}
-.post-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
-.post-tag::before{content:"";display:block;width:28px;height:1px;background:var(--gold);}
-.post-title{font-family:"Cormorant Garamond",serif;font-size:clamp(36px,5vw,68px);font-weight:300;line-height:1.02;letter-spacing:-.02em;color:var(--text);margin-bottom:28px;}
-.post-title em{font-style:italic;color:var(--gold);}
-.post-meta{display:flex;gap:40px;border-top:1px solid var(--border);padding-top:28px;flex-wrap:wrap;}
-.post-meta-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
-.post-meta-value{font-size:13px;color:var(--text-mid);}
-/* body */
-.post-body{max-width:720px;margin:0 auto;padding:80px 40px 120px;}
-.post-body p{font-size:16px;line-height:1.95;color:var(--text-muted);margin-bottom:24px;}
-.post-body p strong{color:var(--text-mid);font-weight:400;}
-.post-body h2{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,3vw,36px);font-weight:300;color:var(--text);margin:56px 0 20px;letter-spacing:-.01em;}
-.post-body h3{font-family:"Cormorant Garamond",serif;font-size:clamp(18px,2.5vw,26px);font-weight:300;color:var(--text-mid);margin:40px 0 16px;letter-spacing:-.01em;}
-.post-body ul,.post-body ol{padding-left:24px;margin-bottom:24px;}
-.post-body li{font-size:16px;line-height:1.85;color:var(--text-muted);margin-bottom:8px;}
-.post-body blockquote{border-left:2px solid var(--gold);padding:20px 28px;margin:40px 0;background:rgba(201,168,76,.04);}
-.post-body blockquote p{color:var(--text-mid);font-style:italic;font-size:17px;margin-bottom:0;}
-.post-body a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.3);transition:border-color .2s;}
-.post-body a:hover{border-color:var(--gold);}
-.post-body hr{border:none;border-top:1px solid var(--border);margin:56px 0;}
-/* inline code */
-.post-body code{font-family:monospace;font-size:13px;background:rgba(201,168,76,.08);color:var(--gold-light);padding:2px 6px;border-radius:3px;}
-/* callout box */
-.callout{background:var(--surface);border:1px solid var(--border-bright);border-radius:4px;padding:28px 32px;margin:40px 0;}
-.callout p{margin-bottom:0;color:var(--text-mid);}
-.callout p:not(:last-child){margin-bottom:12px;}
-/* CTA */
-.post-cta{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:48px;margin:80px 0 0;text-align:center;}
-.post-cta h3{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,3vw,32px);font-weight:300;color:var(--text);margin-bottom:16px;}
-.post-cta p{color:var(--text-muted);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto;}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold);text-decoration:none;background:transparent;cursor:none;transition:background .2s,color .2s;}
-.btn:hover{background:var(--gold);color:var(--black);}
-/* back link */
-.post-back{padding:40px 48px 0;position:relative;z-index:1;}
-.post-back a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color .2s;}
-.post-back a::before{content:"â";}
-.post-back a:hover{color:var(--gold);}
-/* footer */
-footer{padding:80px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
-.footer-copy{font-size:12px;color:var(--text-muted);letter-spacing:.05em;}
-.footer-links{display:flex;gap:32px;}
-.footer-links a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;}
-.footer-links a:hover{color:var(--gold);}
-/* reveal animation */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
-.reveal.visible{opacity:1;transform:none;}
-/* Calendly popup */
-.cal-overlay{position:fixed;inset:0;background:rgba(6,6,6,.85);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
-.cal-overlay.open{opacity:1;pointer-events:all;}
-.cal-box{background:var(--surface);border:1px solid var(--border-bright);border-radius:4px;padding:48px;max-width:480px;width:90%;text-align:center;position:relative;}
-.cal-box h3{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:300;color:var(--text);margin-bottom:16px;}
-.cal-box p{color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:32px;}
-.cal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--text-muted);font-size:20px;cursor:none;transition:color .2s;}
-.cal-close:hover{color:var(--gold);}
-@media(max-width:768px){
-  nav{padding:20px 24px;}
-  .nav-links{display:none;}
-  .post-hero{padding:100px 24px 60px;min-height:60vh;}
-  .post-body{padding:60px 24px 80px;}
-  .post-back{padding:28px 24px 0;}
-  footer{padding:60px 24px;flex-direction:column;align-items:flex-start;}
-}
-
-/* code block */
-.post-body pre{background:rgba(201,168,76,.05);border:1px solid var(--border-bright);border-radius:4px;padding:28px 32px;margin:40px 0;overflow-x:auto;}
-.post-body pre code{font-family:monospace;font-size:13px;line-height:1.7;color:var(--gold-light);background:none;padding:0;border-radius:0;}
-</style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPX0MFSJN"></script>
-<script>
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());
-gtag('config','G-9CPX0MFSJN');
-</script>
-</head>
+</script><style>
+/* lists, code, figure (Tampermonkey post) */
+.post-body ul,.post-body ol{margin:0 0 24px 22px;color:#C8C0B0;font-size:16px;line-height:1.95;}
+.post-body li{margin-bottom:8px;padding-left:4px;}
+.post-body li::marker{color:var(--gold);}
+.post-body code{font-family:monospace;font-size:14px;color:var(--gold);background:rgba(201,168,76,.08);padding:2px 6px;border-radius:3px;}
+.post-body pre{background:rgba(201,168,76,.05);border:1px solid var(--border);padding:28px 32px;margin:40px 0;overflow-x:auto;}
+.post-body pre code{font-size:13px;line-height:1.7;background:none;padding:0;border-radius:0;}
+.post-figure{margin:0 0 56px;}
+.post-figure img{width:100%;height:auto;display:block;border:1px solid var(--border);}
+</style></head>
 <body>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="noise"></div>
-<div class="progress-bar" id="progressBar"></div>
+<div id="progressBar"></div>
+<div id="cursor"></div>
+<div id="cursorRing"></div>
 
 <nav>
   <a href="/" class="nav-logo">Robbie Hodge</a>
   <ul class="nav-links">
-    <li><a href="/#work">Work</a></li>
     <li><a href="/#about">About</a></li>
-    <li><a href="/blog/">Writing</a></li>
+    <li><a href="/#services">Advisory</a></li>
+    <li><a href="/#work">Work</a></li>
     <li><a href="/#contact">Contact</a></li>
   </ul>
+  <a href="/#contact" class="nav-cta">Work Together</a>
 </nav>
 
-<div class="post-back reveal">
-  <a href="/blog/">All Posts</a>
-</div>
-
-<article>
-  <header class="post-hero">
-    <img src="/images/blog/tampermonkey-claude-gmail-fix.png" alt="Gmail search bar fix with Tampermonkey and Claude" class="hero-img">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="post-tag reveal">AI Tools &middot; Productivity</div>
-      <h1 class="post-title reveal">My Gmail Search Bar Broke. The Fix Was <em>One Screenshot Away.</em></h1>
-      <div class="post-meta reveal">
-        <div>
-          <div class="post-meta-label">Published</div>
-          <div class="post-meta-value">October 19, 2026</div>
-        </div>
-        <div>
-          <div class="post-meta-label">Read Time</div>
-          <div class="post-meta-value">4 min read</div>
-        </div>
-        <div>
-          <div class="post-meta-label">Category</div>
-          <div class="post-meta-value">AI Tools &middot; Productivity</div>
-        </div>
-      </div>
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-grid"></div>
+  <div class="post-hero-content">
+    <div class="post-tag">AI Tools · Productivity</div>
+    <h1 class="post-title">My Gmail Search Bar Broke. The Fix Was <em>One Screenshot Away.</em></h1>
+    <div class="post-meta">
+      <div class="post-meta-item"><div class="post-meta-label">Author</div><div class="post-meta-value">Robbie Hodge</div></div>
+      <div class="post-meta-item"><div class="post-meta-label">Published</div><div class="post-meta-value">October 2026</div></div>
+      <div class="post-meta-item"><div class="post-meta-label">Read time</div><div class="post-meta-value">4 minutes</div></div>
+      <div class="post-meta-item"><div class="post-meta-label">Topic</div><div class="post-meta-value">AI Tools · Productivity</div></div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <div class="post-body">
-    <p class="reveal">I got a new ultrawide monitor last week. It&rsquo;s great for everything except, apparently, Gmail. Something about the extra width crammed Gmail&rsquo;s UI into a layout it wasn&rsquo;t designed for. The sidebar expanded. The toolbar shifted. And the &ldquo;Ask Gmail&rdquo; search input &mdash; the one I use probably 40 times a day &mdash; shrank into something barely clickable.</p>
-
-    <p class="reveal">But that wasn&rsquo;t the only problem. Gmail&rsquo;s header at that width was <em>packed</em>: Gemini buttons, a Studio link, Support icons, an Upgrade prompt. All fighting for space in the same toolbar. None of them things I use. All of them making it harder to get to the thing I actually needed.</p>
-
-    <p class="reveal">I tried the obvious fixes. Zoom levels. Different browsers. Hard refresh. The layout issues persisted. So I decided to just ask Claude.</p>
-
-    <h2 class="reveal">The Screenshot Approach</h2>
-
-    <p class="reveal">I took a screenshot of Gmail, dropped it into Claude, and said something like: &ldquo;My Gmail header is cluttered and cramped at this width. Can you write a Tampermonkey script that hides the stuff I don&rsquo;t use and widens the search bar?&rdquo;</p>
-
-    <p class="reveal">Claude identified the exact elements causing the clutter &mdash; Gemini, Studio, Support, the Upgrade button &mdash; and wrote a script that hides them on load and keeps them hidden as Gmail&rsquo;s single-page app navigates. It also targeted the <code>Ask Gmail</code> input container and forced it to a usable 320px width.</p>
-
-    <p class="reveal">The response included a complete Tampermonkey userscript &mdash; ready to paste, no modifications needed.</p>
-
-    <h2 class="reveal">What is Tampermonkey?</h2>
-
-    <p class="reveal">It&rsquo;s a browser extension that lets you run custom JavaScript on any website. You install it once, then you can add scripts that modify how pages look or behave. It&rsquo;s one of the most useful power-user tools on the web &mdash; and you don&rsquo;t need to write code to use it if Claude writes the scripts for you.</p>
-
-    <h2 class="reveal">The Script</h2>
-
-    <p class="reveal">Here&rsquo;s the exact script. Install <a href="https://www.tampermonkey.net/" target="_blank" rel="noopener">Tampermonkey</a>, open its dashboard, click &ldquo;Create a new script,&rdquo; paste this in, and save.</p>
-
-    <pre class="reveal"><code>// ==UserScript==
+<div class="post-body">
+<figure class="post-figure reveal"><img src="/images/blog/tampermonkey-claude-gmail-fix.png" alt="Gmail search bar fix with Tampermonkey and Claude" width="2372" height="862" loading="eager"></figure>
+  <p class="reveal">I got a new ultrawide monitor last week. It’s great for everything except, apparently, Gmail. Something about the extra width crammed Gmail’s UI into a layout it wasn’t designed for. The sidebar expanded. The toolbar shifted. And the “Ask Gmail” search input — the one I use probably 40 times a day — shrank into something barely clickable.</p>
+  <p class="reveal">But that wasn’t the only problem. Gmail’s header at that width was <em>packed</em>: Gemini buttons, a Studio link, Support icons, an Upgrade prompt. All fighting for space in the same toolbar. None of them things I use. All of them making it harder to get to the thing I actually needed.</p>
+  <p class="reveal">I tried the obvious fixes. Zoom levels. Different browsers. Hard refresh. The layout issues persisted. So I decided to just ask Claude.</p>
+  <h2 class="post-h2 reveal">The Screenshot Approach</h2>
+  <p class="reveal">I took a screenshot of Gmail, dropped it into Claude, and said something like: “My Gmail header is cluttered and cramped at this width. Can you write a Tampermonkey script that hides the stuff I don’t use and widens the search bar?”</p>
+  <p class="reveal">Claude identified the exact elements causing the clutter — Gemini, Studio, Support, the Upgrade button — and wrote a script that hides them on load and keeps them hidden as Gmail’s single-page app navigates. It also targeted the <code>Ask Gmail</code> input container and forced it to a usable 320px width.</p>
+  <p class="reveal">The response included a complete Tampermonkey userscript — ready to paste, no modifications needed.</p>
+  <h2 class="post-h2 reveal">What is Tampermonkey?</h2>
+  <p class="reveal">It’s a browser extension that lets you run custom JavaScript on any website. You install it once, then you can add scripts that modify how pages look or behave. It’s one of the most useful power-user tools on the web — and you don’t need to write code to use it if Claude writes the scripts for you.</p>
+  <h2 class="post-h2 reveal">The Script</h2>
+  <p class="reveal">Here’s the exact script. Install <a href="https://www.tampermonkey.net/" target="_blank" rel="noopener">Tampermonkey</a>, open its dashboard, click “Create a new script,” paste this in, and save.</p>
+  <pre class="reveal"><code>// ==UserScript==
 // @name         Gmail Narrow Window Cleanup
 // @namespace    robbie-gmail
 // @version      1.2
@@ -273,95 +260,64 @@ gtag('config','G-9CPX0MFSJN');
     });
 
 })();</code></pre>
-
-    <h2 class="reveal">The Fix, Step by Step</h2>
-
-    <p class="reveal">Here&rsquo;s exactly what I did:</p>
-    <ol class="reveal">
+  <h2 class="post-h2 reveal">The Fix, Step by Step</h2>
+  <p class="reveal">Here’s exactly what I did:</p>
+  <ol class="reveal">
       <li>Installed Tampermonkey in Chrome (took about 45 seconds)</li>
-      <li>Opened the Tampermonkey dashboard and clicked &ldquo;Create a new script&rdquo;</li>
+      <li>Opened the Tampermonkey dashboard and clicked “Create a new script”</li>
       <li>Pasted the script above, replacing the default placeholder</li>
       <li>Saved it and reloaded Gmail</li>
     </ol>
-
-    <p class="reveal">The result: Gemini, Studio, Support, and the Upgrade button &mdash; gone. Ask Gmail &mdash; properly sized. The header went from cluttered to clean in under two minutes.</p>
-
-    <div class="callout reveal">
-      <p><strong>What the script does, specifically:</strong> It hides the Gemini, Studio, Help/Support, and Upgrade UI elements in Gmail&rsquo;s header. It then finds the Ask Gmail search container and forces it to 320px wide. A <code>MutationObserver</code> re-runs the cleanup whenever Gmail&rsquo;s DOM updates, so it survives navigation between inbox, sent, and labels.</p>
+  <p class="reveal">The result: Gemini, Studio, Support, and the Upgrade button — gone. Ask Gmail — properly sized. The header went from cluttered to clean in under two minutes.</p>
+  <div class="post-callout reveal">
+      <p><strong>What the script does, specifically:</strong> It hides the Gemini, Studio, Help/Support, and Upgrade UI elements in Gmail’s header. It then finds the Ask Gmail search container and forces it to 320px wide. A <code>MutationObserver</code> re-runs the cleanup whenever Gmail’s DOM updates, so it survives navigation between inbox, sent, and labels.</p>
     </div>
-
-    <h2 class="reveal">Why This Matters</h2>
-
-    <p class="reveal">Six months ago, fixing a layout problem in a third-party web app required either technical knowledge to inspect the DOM and write CSS overrides yourself, or waiting for the vendor to patch it (Gmail still hasn&rsquo;t, by the way).</p>
-
-    <p class="reveal">Now it requires a screenshot and a sentence.</p>
-
-    <p class="reveal">I&rsquo;ve since used the same approach to:</p>
-    <ul class="reveal">
+  <h2 class="post-h2 reveal">Why This Matters</h2>
+  <p class="reveal">Six months ago, fixing a layout problem in a third-party web app required either technical knowledge to inspect the DOM and write CSS overrides yourself, or waiting for the vendor to patch it (Gmail still hasn’t, by the way).</p>
+  <p class="reveal">Now it requires a screenshot and a sentence.</p>
+  <p class="reveal">I’ve since used the same approach to:</p>
+  <ul class="reveal">
       <li>Remove an annoying promotional banner from a SaaS tool I use daily</li>
       <li>Fix a date picker that rendered off-screen in a project management app</li>
-      <li>Add keyboard shortcuts to a web app that didn&rsquo;t have them</li>
+      <li>Add keyboard shortcuts to a web app that didn’t have them</li>
       <li>Auto-collapse a sidebar that kept reopening every time I navigated</li>
     </ul>
-
-    <p class="reveal">None of these required me to write a single line of code. I described the problem, shared a screenshot when useful, and Claude provided a ready-to-run Tampermonkey script each time.</p>
-
-    <h2 class="reveal">The Broader Shift</h2>
-
-    <p class="reveal">There&rsquo;s a version of this story that&rsquo;s just &ldquo;AI is useful for debugging.&rdquo; But I think it&rsquo;s actually about something more specific: AI collapses the distance between identifying a problem and fixing it for people who aren&rsquo;t developers.</p>
-
-    <p class="reveal">The traditional path was: notice problem &rarr; Google it &rarr; find forum thread &rarr; realize no solution exists &rarr; give up or pay someone. The new path is: notice problem &rarr; describe it to Claude &rarr; paste the script &rarr; done.</p>
-
-    <p class="reveal">The screenshot was the interface. The Tampermonkey script was the output. The whole thing took less time than writing this paragraph.</p>
-
+  <p class="reveal">None of these required me to write a single line of code. I described the problem, shared a screenshot when useful, and Claude provided a ready-to-run Tampermonkey script each time.</p>
+  <h2 class="post-h2 reveal">The Broader Shift</h2>
+  <p class="reveal">There’s a version of this story that’s just “AI is useful for debugging.” But I think it’s actually about something more specific: AI collapses the distance between identifying a problem and fixing it for people who aren’t developers.</p>
+  <p class="reveal">The traditional path was: notice problem → Google it → find forum thread → realize no solution exists → give up or pay someone. The new path is: notice problem → describe it to Claude → paste the script → done.</p>
+  <p class="reveal">The screenshot was the interface. The Tampermonkey script was the output. The whole thing took less time than writing this paragraph.</p>
+  <div class="post-cta reveal">
+    <h3>Working through something similar?</h3>
+    <p>I'm always interested in the small friction points that slow people down. If you've got a tool or workflow problem that feels unsolvable, let's talk.</p>
+    <a href="https://calendly.com/me-robbiehodge/30min" class="btn-primary" target="_blank" rel="noopener">Schedule a Conversation →</a>
   </div>
-
-  post-cta reveal">
-      <h3>Working through something similar?</h3>
-      <p>I'm always interested in the small friction points that slow people down. If you've got a tool or workflow problem that feels unsolvable, let's talk.</p>
-      <a href="https://calendly.com/me-robbiehodge/30min" class="btn" target="_blank" rel="noopener">Schedule a conversation &rarr;</a>
-    </div>
-  </div>
-</article>
+</div>
 
 <footer>
-  <div class="footer-copy">&copy; 2026 Robbie Hodge. All rights reserved.</div>
-  <div class="footer-links">
-    <a href="/blog/">Writing</a>
-    <a href="https://linkedin.com/in/robbiehodge" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://twitter.com/robbiehodge" target="_blank" rel="noopener">Twitter</a>
-  </div>
+  <div class="footer-logo">Robbie Hodge</div>
+  <div class="footer-copy">© 2026 Robbie Hodge — Charlotte, NC</div>
+  <ul class="footer-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#services">Advisory</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
 </footer>
 
 <script>
-// Custom cursor
-const cursor=document.getElementById('cursor');
-const ring=document.getElementById('cursorRing');
-document.addEventListener('mousemove',e=>{
-  cursor.style.left=e.clientX+'px';
-  cursor.style.top=e.clientY+'px';
-  ring.style.left=e.clientX+'px';
-  ring.style.top=e.clientY+'px';
-});
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2)';});
-  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';});
-});
-
-// Reading progress
-const bar=document.getElementById('progressBar');
-window.addEventListener('scroll',()=>{
-  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
-  bar.style.width=Math.min(pct,100)+'%';
-});
-
-// Reveal on scroll
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
-},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function ar(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
+window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(s/h*100)+'%';});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9CPX0MFSJN"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9CPX0MFSJN');gtag('event','page_view',{page_title:'Tampermonkey Claude Gmail Fix',page_location:window.location.href});</script>
+
 <script src="/js/cal-popup.js"></script>
-</body>
-</html>
+
+</body></html>
