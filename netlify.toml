@@ -1,2 +1,13 @@
 [functions]
   node_bundler = "esbuild"
+
+# v2 / v2a homepage previews were promoted to / on 2026-10-30
+[[redirects]]
+  from = "/v2/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/v2a/*"
+  to = "/"
+  status = 301
