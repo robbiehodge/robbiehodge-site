@@ -3,6 +3,7 @@
 <html lang="en"><head>
 <!-- v2a preview: keep out of search until it replaces the live homepage -->
 <meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <!-- Apollo -->
 <script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"6aa9b9d62eccc80018d566b9"})},document.head.appendChild(o)}initApollo();</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -249,10 +250,10 @@
   --card-hover:#2A2820;
 }
 /* section bands alternate between two lifted darks */
-.how{background:var(--sec-a)}
-.services{background:var(--sec-b)}
-.work{background:var(--sec-a)}
-.about{background:var(--sec-b)}
+.services{background:var(--sec-a)}
+.work{background:var(--sec-b)}
+.about{background:var(--sec-a)}
+.how{background:var(--sec-b)}
 .contact{background:var(--sec-a)}
 .service-card,.work-card,.work-side-card{background:var(--card)}
 .service-card:hover,.work-card:hover,.work-side-card:hover{background:var(--card-hover)}
@@ -469,9 +470,9 @@
   <a href="#" class="nav-logo">Robbie Hodge</a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
-    <li><a href="#how">How I Work</a></li>
     <li><a href="#results">Results</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="#how">How I Work</a></li>
     <li><a href="/blog/">Blog</a></li>
     <li><a href="#contact">Contact</a></li>
  <!-- CHARLOTTE CLOCK -->
@@ -570,18 +571,6 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   <div class="stat-cell"><div class="stat-num">B2B &amp; DTC</div><div class="stat-label">Local service to national eCommerce</div></div>
 </div>
 
-<section class="how reveal" id="how">
-  <div>
-    <div class="section-label">How It Usually Goes</div>
-    <h2 class="section-heading">It starts with<br>marketing. <em>It rarely<br>ends there.</em></h2>
-    <p class="about-bio">Once I&#39;m in, the real leak is often somewhere downstream: calls going to voicemail, forms nobody follows up on, a CRM no one trusts, reports no one reads. <strong>I fix the marketing, then the parts of the business it touches.</strong></p>
-  </div>
-  <ul class="expertise-list">
-    <li class="expertise-item"><span class="expertise-num">01</span><div class="expertise-content"><h4>Find the leaks</h4><p>A straight audit of your ads, leads and follow-up. You get a short, ranked list of what&#39;s costing you money.</p></div></li>
-    <li class="expertise-item"><span class="expertise-num">02</span><div class="expertise-content"><h4>Fix what pays first</h4><p>Quick wins in the first 30 days, then the bigger fixes in order of payback.</p></div></li>
-    <li class="expertise-item"><span class="expertise-num">03</span><div class="expertise-content"><h4>Run it or hand it off</h4><p>I manage it month to month, or set it up so your team can run it without me.</p></div></li>
-  </ul>
-</section>
 
 <section class="services reveal" id="services">
   <div class="services-header">
@@ -693,11 +682,24 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   </div>
 </section>
 
+<section class="how reveal" id="how">
+  <div>
+    <div class="section-label">How It Usually Goes</div>
+    <h2 class="section-heading">It starts with<br>marketing. <em>It rarely<br>ends there.</em></h2>
+    <p class="about-bio">Once I&#39;m in, the real leak is often somewhere downstream: calls going to voicemail, forms nobody follows up on, a CRM no one trusts, reports no one reads. <strong>I fix the marketing, then the parts of the business it touches.</strong></p>
+  </div>
+  <ul class="expertise-list">
+    <li class="expertise-item"><span class="expertise-num">01</span><div class="expertise-content"><h4>Find the leaks</h4><p>A straight audit of your ads, leads and follow-up. You get a short, ranked list of what&#39;s costing you money.</p></div></li>
+    <li class="expertise-item"><span class="expertise-num">02</span><div class="expertise-content"><h4>Fix what pays first</h4><p>Quick wins in the first 30 days, then the bigger fixes in order of payback.</p></div></li>
+    <li class="expertise-item"><span class="expertise-num">03</span><div class="expertise-content"><h4>Run it or hand it off</h4><p>I manage it month to month, or set it up so your team can run it without me.</p></div></li>
+  </ul>
+</section>
+
 <section class="contact reveal" id="contact">
   <div class="contact-left">
     <div class="section-label">Get in Touch</div>
     <h2 class="section-heading">Tell me what&#39;s<br><em>not working.</em></h2>
-    <p class="contact-tagline">&ldquo;Tell me what&#39;s not working. No pitch, no deck. Just a direct conversation about your business.&rdquo;</p>
+    <p class="contact-tagline">&ldquo;Ads, leads, or something you can&#39;t quite put your finger on. Send it over.&rdquo;</p>
     <div class="contact-details">
       <div class="contact-detail"><span class="contact-detail-label">Email</span><span class="contact-detail-value"><a href="mailto:me@robbiehodge.com">me@robbiehodge.com</a></span></div>
       <div class="contact-detail"><span class="contact-detail-label">Phone</span><span class="contact-detail-value"><a href="tel:7046298677">(704) 629-8677</a></span></div>
@@ -1010,9 +1012,9 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   <div class="footer-copy">ÃÂ© 2026 Robbie Hodge – Charlotte, NC</div>
   <ul class="footer-links">
     <li><a href="#services">Services</a></li>
-    <li><a href="#how">How I Work</a></li>
     <li><a href="#results">Results</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="#how">How I Work</a></li>
     <li><a href="/fractional-cmo-charlotte/">Charlotte CMO</a></li>
     <li><a href="/ecommerce-marketing-charlotte/">eCommerce Charlotte</a></li>
     <li><a href="/b2b-marketing-consultant-charlotte/">B2B Charlotte</a></li>
