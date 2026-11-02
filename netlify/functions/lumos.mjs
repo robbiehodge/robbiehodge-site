@@ -55,6 +55,7 @@ function readCookie(request, name) {
   }
   return '';
 }
+const logEvent = (event, request) => { try { console.log(JSON.stringify({ event, ua: (request.headers.get('user-agent') || '').slice(0, 160) })); } catch {} };
 const safeEq = (a, b) => a.length === b.length && timingSafeEqual(a, b);
 
 export default async function handler(request) {
@@ -74,13 +75,15 @@ export default async function handler(request) {
     let password = '';
     try { const form = await request.formData(); password = String(form.get('password') || '').slice(0, 256); } catch {}
     const ok = safeEq(createHash('sha256').update(password.trim().toLowerCase()).digest(), Buffer.from(expectedHash, 'hex'));
-    if (!ok) return html(loginPage(true), 401);
+    if (!ok) { logEvent('lumos_login_failed', request); return html(loginPage(true), 401); }
+    logEvent('lumos_login_ok', request);
     return new Response(null, { status: 303, headers: { ...headers, Location: '/lumos/',
       'Set-Cookie': `${COOKIE}=${token}; Path=/lumos; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax` } });
   }
   if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', { status: 405, headers: { ...headers, Allow: 'GET, HEAD, POST' } });
 
-  if (!safeEq(Buffer.from(readCookie(request, COOKIE)), Buffer.from(token))) return html(loginPage(false), 401);
+  if (!safeEq(Buffer.from(readCookie(request, COOKIE)), Buffer.from(token))) { logEvent('lumos_login_page', request); return html(loginPage(false), 401); }
+  logEvent('lumos_proposal_view', request);
 
   try {
     const d = createDecipheriv('aes-256-gcm', Buffer.from(contentKey, 'base64'), Buffer.from(asset.iv, 'base64'));
