@@ -28,18 +28,21 @@ label{font-size:14px;font-weight:600}input{width:100%;font:inherit;padding:12px 
 input:focus{outline:2px solid var(--accent);outline-offset:1px}
 button{font:600 15px system-ui,sans-serif;padding:13px;border:0;border-radius:999px;background:var(--accent);color:#fff;cursor:pointer}
 .err{color:var(--err);font-size:14px}a{color:var(--accent)}
+.tooth{color:var(--accent)}.top{display:flex;align-items:center;gap:10px}
+.chart{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-block:1px solid var(--rule);font:500 12px ui-monospace,monospace;color:var(--muted)}.chart b{display:block;color:var(--ink);font:600 13px system-ui,sans-serif}
 </style></head><body>${inner}</body></html>`;
 
-const loginPage = (error) => shell('Lumos Dental Studio · Proposal', `<form class="card" method="post" action="/lumos/">
-<span class="k">Lumos Dental Studio</span><h1>Your treatment plan</h1>
-<p>Prepared by Robbie Hodge. Enter the password from my email to open it.</p>
+const loginPage = (error) => shell('Lumos Dental Studio · Treatment plan', `<form class="card" method="post" action="/lumos/">
+<div class="top"><svg class="tooth" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M7.5 3C5 3 3.5 5 3.5 7.6c0 2.2.8 3.6 1.4 5.3.6 1.8.7 4 1.2 5.9.4 1.5 1 2.2 1.8 2.2 1.1 0 1.5-1.3 1.8-3 .3-1.6.6-3.5 2.3-3.5s2 1.9 2.3 3.5c.3 1.7.7 3 1.8 3 .8 0 1.4-.7 1.8-2.2.5-1.9.6-4.1 1.2-5.9.6-1.7 1.4-3.1 1.4-5.3C20.5 5 19 3 16.5 3c-1.9 0-2.9 1-4.5 1S9.4 3 7.5 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="k">Lumos Dental Studio</span></div><h1>Your website and advertising treatment plan</h1>
+<div class="chart"><span>Patient<b>Lumos Dental Studio</b></span><span>Prepared by<b>Robbie Hodge</b></span></div>
+<p>Enter the password from my email to open your chart.</p>
 <label for="pw">Password</label><input id="pw" name="password" type="password" autocomplete="current-password" required autofocus>
-${error ? '<span class="err" role="alert">That password didn\'t work. Check the email and try again.</span>' : ''}
-<button type="submit">Open the proposal</button>
+${error ? '<span class="err" role="alert">That password didn\'t match our records. Check the email and try again.</span>' : ''}
+<button type="submit">Open my treatment plan</button>
 <p style="font-size:13px">Trouble getting in? Email <a href="mailto:me@robbiehodge.com">me@robbiehodge.com</a>.</p></form>`);
 
-const expiredPage = () => shell('Proposal expired', `<div class="card"><span class="k">Lumos Dental Studio</span><h1>This proposal has expired</h1>
-<p>Reach out and I'll send a current version: <a href="mailto:me@robbiehodge.com">me@robbiehodge.com</a> or <a href="https://calendly.com/me-robbiehodge/30min">book a call</a>.</p></div>`);
+const expiredPage = () => shell('Treatment plan expired', `<div class="card"><div class="top"><svg class="tooth" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M7.5 3C5 3 3.5 5 3.5 7.6c0 2.2.8 3.6 1.4 5.3.6 1.8.7 4 1.2 5.9.4 1.5 1 2.2 1.8 2.2 1.1 0 1.5-1.3 1.8-3 .3-1.6.6-3.5 2.3-3.5s2 1.9 2.3 3.5c.3 1.7.7 3 1.8 3 .8 0 1.4-.7 1.8-2.2.5-1.9.6-4.1 1.2-5.9.6-1.7 1.4-3.1 1.4-5.3C20.5 5 19 3 16.5 3c-1.9 0-2.9 1-4.5 1S9.4 3 7.5 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="k">Lumos Dental Studio</span></div><h1>Time for a follow-up visit</h1>
+<p>This treatment plan has expired. Reach out and I'll send a current one: <a href="mailto:me@robbiehodge.com">me@robbiehodge.com</a> or <a href="https://calendly.com/me-robbiehodge/30min">book a call</a>.</p></div>`);
 
 const html = (body, status = 200, extra = {}) =>
   new Response(body, { status, headers: { ...headers, 'Content-Type': 'text/html; charset=utf-8', ...extra } });
