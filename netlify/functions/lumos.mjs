@@ -70,7 +70,7 @@ export default async function handler(request) {
   if (request.method === 'POST') {
     let password = '';
     try { const form = await request.formData(); password = String(form.get('password') || '').slice(0, 256); } catch {}
-    const ok = safeEq(createHash('sha256').update(password.trim()).digest(), Buffer.from(expectedHash, 'hex'));
+    const ok = safeEq(createHash('sha256').update(password.trim().toLowerCase()).digest(), Buffer.from(expectedHash, 'hex'));
     if (!ok) return html(loginPage(true), 401);
     return new Response(null, { status: 303, headers: { ...headers, Location: '/lumos/',
       'Set-Cookie': `${COOKIE}=${token}; Path=/lumos; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax` } });
