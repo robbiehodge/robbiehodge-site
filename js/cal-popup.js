@@ -8,12 +8,27 @@
   // Only show once per session
   if (sessionStorage.getItem('calPopupSeen')) return;
 
-  setTimeout(function() {
+  // Show it late, once: on exit intent (desktop) or after 45 seconds, whichever comes
+  // first. Never once the lead widget has been opened or used, so the two never compete.
+  var shown = false;
+  var cancelled = false;
+  var loadedAt = Date.now();
+  function show() {
+    if (shown || cancelled || sessionStorage.getItem('calPopupSeen')) return;
     const popup = document.getElementById('calPopup');
     if (!popup) return;
+    shown = true;
     popup.style.opacity = '1';
     popup.style.pointerEvents = 'all';
-  }, 7000);
+  }
+  setTimeout(show, 45000);
+  document.addEventListener('mouseout', function(e) {
+    // Mouse left through the top of the window, and the visitor has been here 5 seconds.
+    if (!e.relatedTarget && e.clientY <= 0 && Date.now() - loadedAt > 5000) show();
+  });
+  ['over:open', 'over:lead'].forEach(function(name) {
+    window.addEventListener(name, function() { cancelled = true; });
+  });
 
   // Close on backdrop click
   document.getElementById('calPopup').addEventListener('click', function(e) {
