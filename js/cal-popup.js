@@ -26,7 +26,7 @@
     // Mouse left through the top of the window, and the visitor has been here 5 seconds.
     if (!e.relatedTarget && e.clientY <= 0 && Date.now() - loadedAt > 5000) show();
   });
-  ['over:open', 'over:lead'].forEach(function(name) {
+  ['overjaw:open', 'overjaw:lead'].forEach(function(name) {
     window.addEventListener(name, function() { cancelled = true; });
   });
 
