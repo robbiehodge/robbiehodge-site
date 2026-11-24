@@ -11,3 +11,11 @@
   from = "/v2a/*"
   to = "/"
   status = 301
+
+# Private Tisas concepts for Kaya. The pages live in the separate robbiehodge-tisas
+# Netlify project, which runs the password gate, so nothing private sits in this repo.
+[[redirects]]
+  from = "/tisas/*"
+  to = "https://robbiehodge-tisas.netlify.app/tisas/:splat"
+  status = 200
+  force = true
