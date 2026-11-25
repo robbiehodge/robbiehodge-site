@@ -24,14 +24,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C97A;
+    --gold: #D8C39E;
+    --gold-light: #EFE1C4;
     --gold-dim: #7A5E28;
     --black: #080808;
     --dark: #0F0F0D;
     --surface: #161612;
     --surface2: #1E1E1A;
-    --border: rgba(201,168,76,0.18);
+    --border: rgba(216,195,158,0.18);
     --text: #F0EDE6;
     --text-muted: #B8B0A0;
     --text-mid: #D0C8B8;
@@ -41,7 +41,7 @@
   body { background: var(--black); color: var(--text); font-family: "DM Sans", sans-serif; font-weight: 300; overflow-x: hidden; cursor: pointer; }
 
   .cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s ease; mix-blend-mode: screen; }
-  .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(201,168,76,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: all 0.25s ease; transform: translate(-12px,-12px); }
+  .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(216,195,158,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: all 0.25s ease; transform: translate(-12px,-12px); }
   #statusBar { position: fixed !important; z-index: 99999 !important; }
 
   /* NAV */
@@ -289,7 +289,7 @@
 .work-side-card p{font-size:13px}
 .work-tags{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .work-tags span{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);padding:4px 10px;transition:border-color .3s}
-.work-side-card:hover .work-tags span{border-color:rgba(201,168,76,.5)}
+.work-side-card:hover .work-tags span{border-color:rgba(216,195,158,.5)}
 .work-card p{font-size:14px}
 .work-more{display:inline-flex;align-items:center;gap:10px;margin-top:36px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color .3s}
 .work-more::after{content:"\2192";font-size:14px}
@@ -316,6 +316,7 @@
 }
 </style>
 
+  <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
 
@@ -328,7 +329,7 @@
   let W, H, nodes = [], mouse = { x: -9999, y: -9999 };
   let animating = true;
 
-  const GOLD = 'rgba(201,168,76,';
+  const GOLD = 'rgba(216,195,158,';
   const NODE_COUNT = 55;
   const CONNECTION_DIST = 180;
   const MOUSE_DIST = 220;
@@ -380,7 +381,7 @@
     draw() {
       const a = this.alpha * (0.7 + 0.3 * Math.sin(this.pulse));
       ctx.globalAlpha = a;
-      ctx.fillStyle = '#C9A84C';
+      ctx.fillStyle = '#D8C39E';
       ctx.beginPath();
       // Square nodes like Explee
       const s = this.size;
@@ -404,7 +405,7 @@
         if (dist < CONNECTION_DIST) {
           const alpha = (1 - dist/CONNECTION_DIST) * 0.18;
           ctx.globalAlpha = alpha;
-          ctx.strokeStyle = '#C9A84C';
+          ctx.strokeStyle = '#D8C39E';
           ctx.lineWidth = 0.5;
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
@@ -420,7 +421,7 @@
       if (mdist < MOUSE_DIST) {
         const alpha = (1 - mdist/MOUSE_DIST) * 0.35;
         ctx.globalAlpha = alpha;
-        ctx.strokeStyle = '#C9A84C';
+        ctx.strokeStyle = '#D8C39E';
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         ctx.moveTo(nodes[i].x, nodes[i].y);
@@ -462,72 +463,38 @@
 <div class="cursor" id="cursor" style="left: 765px; top: 354px;"></div>
 <div class="cursor-ring" id="cursorRing" style="left: 753px; top: 342px;"></div>
 
-<nav id="nav">
-  <a href="#" class="nav-logo">Robbie Hodge</a>
+<nav id="nav" class="site-nav" aria-label="Main navigation">
+  <a href="/" class="nav-logo">Robbie <span>Hodge</span></a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#results">Results</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#how">How I Work</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="#contact">Contact</a></li>
- <!-- CHARLOTTE CLOCK -->
-<style>
-#statusBar { position: fixed !important; z-index: 99999 !important; bottom: 24px !important; top: auto !important; right: 16px !important; }
-@media (max-width: 768px) {
-  #statusBar .hide-mobile { display: none; }
-}
-</style>
-
-<a href="#contact" style="text-decoration:none;">
-<div id="statusBar" style="
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:rgba(6,6,6,0.85);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(201,168,76,0.2);
-  padding:10px 18px;
-  font-family:'DM Sans',sans-serif;
-  font-size:11px;
-  letter-spacing:0.15em;
-  text-transform:uppercase;
-  color:#7A7768;
-  cursor:pointer;
-  transition:border-color 0.3s ease;
-"
-onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'"
-onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
->
-  <span style="width:6px;height:6px;border-radius:50%;background:#6BCB77;box-shadow:0 0 0 0 rgba(107,203,119,0.5);animation:pulse-g 2.5s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>
-  <span style="color:#6BCB77;">Available</span>
-  <span class="hide-mobile" style="color:rgba(201,168,76,0.3);">·</span>
-  <span class="hide-mobile">Charlotte, NC</span>
-  <span style="color:rgba(201,168,76,0.3);">·</span>
-  <span id="cltClock" style="color:#C9A84C;font-variant-numeric:tabular-nums;"></span>
-</div>
-</a>
-
-<script>
-(function() {
-  function updateClock() {
-    const now = new Date();
-    const clt = now.toLocaleTimeString('en-US', {
-      timeZone: 'America/New_York',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-    document.getElementById('cltClock').textContent = clt;
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
-})();
-</script>
-        </ul>
-  <a href="#contact" class="nav-cta">Work Together</a>
+  </ul>
+  <div class="nav-right">
+    <a href="#contact" class="nav-cta">Work Together</a>
+    <button type="button" id="navToggle" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+  </div>
 </nav>
+<div id="mobileDrawer" class="mobile-drawer" aria-label="Mobile navigation">
+  <a href="#services">Services</a>
+  <a href="#results">Results</a>
+  <a href="#about">About</a>
+  <a href="#how">How I Work</a>
+  <a href="/blog/">Blog</a>
+  <a href="#contact" class="drawer-cta">Work Together</a>
+</div>
+<a href="#contact" id="statusBarWrap" aria-label="Available in Charlotte, NC">
+  <div id="statusBar">
+    <span class="status-dot"></span>
+    <span class="status-avail">Available</span>
+    <span class="status-sep hide-mobile">&middot;</span>
+    <span class="hide-mobile">Charlotte, NC</span>
+    <span class="status-sep">&middot;</span>
+    <span id="cltClock"></span>
+  </div>
+</a>
 
 <section class="hero" id="top">
   <div class="hero-left">
@@ -535,7 +502,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     <div class="hero-eyebrow">Business Optimizer &middot; Charlotte, NC</div>
     <h1 class="hero-name">Robbie<br><em>Hodge.</em></h1>
     <div class="hero-title">PPC &middot; Lead Optimization &middot; Business Optimization</div>
-    <p class="hero-desc">I&#39;m a business optimizer with a heavy focus on marketing. Most conversations start with ads or leads. From there, I fix whatever else is costing the business customers.</p>
+    <p class="hero-desc">A CMO and hands-on operator specializing in high-performance marketing. Having worked across nearly every function of a growing business, I start by sharpening acquisition, then go deeper into the systems, automation, and execution that make growth stick.</p>
     <div class="hero-actions">
       <a href="https://calendly.com/me-robbiehodge/30min" target="_blank" rel="noopener" class="btn-primary">Book a 30-Minute Call</a>
       <a href="#services" class="btn-ghost">See What I Do</a>
@@ -662,6 +629,46 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   </div>
 </section>
 
+
+<section class="desk-section reveal" id="desk">
+  <div class="desk-inner">
+    <div class="desk-header">
+      <div>
+        <div class="desk-eyebrow">From the Desk of a CMO</div>
+        <h2 class="section-heading">Marketing systems, AI builds, and <em>real-world fixes.</em></h2>
+        <p class="desk-sub">Growing a business takes more than ad campaigns. Here are a few recent dispatches covering outbound architecture, browser automation, and hardware experiments from my desk.</p>
+      </div>
+      <a href="/blog/" class="desk-all-link">Read all dispatches &rarr;</a>
+    </div>
+    <div class="desk-grid">
+      <a href="/blog/furnace-led-watcher-grok/" class="desk-card">
+        <div>
+          <span class="desk-tag">Hardware &amp; AI</span>
+          <h3>Watching a Furnace Blink Code with a Camera and Grok</h3>
+          <p>Pointing a camera at a blinking HVAC diagnostic LED, counting flash patterns in real time, and firing phone alerts before the house goes cold.</p>
+        </div>
+        <span class="desk-read">Read dispatch &rarr;</span>
+      </a>
+      <a href="/blog/tampermonkey-claude-gmail-fix/" class="desk-card">
+        <div>
+          <span class="desk-tag">Automation</span>
+          <h3>Fixing a Daily Gmail Annoyance with Tampermonkey and Claude</h3>
+          <p>When software slows you down every day, you do not have to wait for a roadmap update. A lightweight userscript built in an afternoon.</p>
+        </div>
+        <span class="desk-read">Read dispatch &rarr;</span>
+      </a>
+      <a href="/blog/apollo-hubspot-outbound-stack/" class="desk-card">
+        <div>
+          <span class="desk-tag">Revenue Systems</span>
+          <h3>Building a Clean Apollo + HubSpot Outbound Stack</h3>
+          <p>How to wire enrichment, routing, and follow-up so good leads stop slipping through the cracks between marketing and sales.</p>
+        </div>
+        <span class="desk-read">Read dispatch &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="about reveal" id="about">
   <div>
     <div class="section-label">About</div>
@@ -753,15 +760,15 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
 
 <!-- CALENDLY FULL WIDTH CTA -->
 <section style="
-  background:#1A1A16;
-  border-top:1px solid rgba(201,168,76,0.2);
-  border-bottom:1px solid rgba(201,168,76,0.2);
+  background:var(--sec-b);
+  border-top:1px solid rgba(216,195,158,0.2);
+  border-bottom:1px solid rgba(216,195,158,0.2);
   padding:80px;
   text-align:center;
   position:relative;
   overflow:hidden;
 ">
-  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);pointer-events:none;"></div>
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(216,195,158,0.06) 0%,transparent 65%);pointer-events:none;"></div>
   <div style="font-size:48px;margin-bottom:20px;position:relative;z-index:1;">&#128197;</div>
   <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,52px);font-weight:300;line-height:1.1;color:var(--text);margin-bottom:12px;position:relative;z-index:1;">
     Prefer to talk it through?<br><em style="color:var(--gold);font-style:italic;">Let's put 30 minutes on the calendar.</em>
@@ -781,7 +788,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     position:relative;z-index:1;
     transition:background 0.3s;
   "
-  onmouseover="this.style.background='#E8C97A'"
+  onmouseover="this.style.background='#EFE1C4'"
   onmouseout="this.style.background='var(--gold)'"
   >
     Book a 30-Minute Call &nbsp;&rarr;
@@ -877,7 +884,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
     }
     draw() {
       ctx.globalAlpha = Math.max(0, this.alpha);
-      ctx.fillStyle   = this.gold ? '#C9A84C' : '#E8E4D8';
+      ctx.fillStyle   = this.gold ? '#D8C39E' : '#E8E4D8';
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
@@ -947,7 +954,7 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
           if(d.x<0) d.x=bgC.width; if(d.x>bgC.width) d.x=0;
           if(d.y<0) d.y=bgC.height; if(d.y>bgC.height) d.y=0;
           bgCtx.globalAlpha=d.a*(0.6+0.4*Math.sin(Date.now()*.001+d.x));
-          bgCtx.fillStyle='#C9A84C';
+          bgCtx.fillStyle='#D8C39E';
           bgCtx.beginPath(); bgCtx.arc(d.x,d.y,d.r,0,Math.PI*2); bgCtx.fill();
         });
         bgCtx.globalAlpha=1;
@@ -1003,19 +1010,20 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
 
 
 
-<footer>
+<footer class="site-footer">
   <div class="footer-logo">Robbie Hodge</div>
-  <div class="footer-copy">ÃÂ© 2026 Robbie Hodge – Charlotte, NC</div>
+  <div class="footer-copy">&copy; 2026 Robbie Hodge &middot; Charlotte, NC</div>
   <ul class="footer-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#results">Results</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#how">How I Work</a></li>
+    <li><a href="/blog/">Blog</a></li>
     <li><a href="/fractional-cmo-charlotte/">Charlotte CMO</a></li>
     <li><a href="/ecommerce-marketing-charlotte/">eCommerce Charlotte</a></li>
     <li><a href="/b2b-marketing-consultant-charlotte/">B2B Charlotte</a></li>
     <li><a href="mailto:me@robbiehodge.com">Email</a></li>
-    <li><a href="https://www.linkedin.com/in/robbie-hodge-4b671a9/" target="_blank">LinkedIn</a></li>
+    <li><a href="https://www.linkedin.com/in/robbie-hodge-4b671a9/" target="_blank" rel="noopener">LinkedIn</a></li>
   </ul>
 </footer>
 
@@ -1025,8 +1033,8 @@ onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"
   document.addEventListener("mousemove",e=>{ mx=e.clientX; my=e.clientY; cursor.style.left=(mx-4)+"px"; cursor.style.top=(my-4)+"px"; });
   (function animRing(){ rx+=(mx-rx-16)*0.12; ry+=(my-ry-16)*0.12; ring.style.left=rx+"px"; ring.style.top=ry+"px"; requestAnimationFrame(animRing); })();
   document.querySelectorAll("a,button,.service-card,.expertise-item,.work-card,.work-side-card").forEach(el=>{
-    el.addEventListener("mouseenter",()=>{ cursor.style.transform="scale(2.5)"; ring.style.transform="translate(-12px,-12px) scale(1.5)"; ring.style.borderColor="rgba(201,168,76,0.8)"; });
-    el.addEventListener("mouseleave",()=>{ cursor.style.transform="scale(1)"; ring.style.transform="translate(-12px,-12px) scale(1)"; ring.style.borderColor="rgba(201,168,76,0.4)"; });
+    el.addEventListener("mouseenter",()=>{ cursor.style.transform="scale(2.5)"; ring.style.transform="translate(-12px,-12px) scale(1.5)"; ring.style.borderColor="rgba(216,195,158,0.8)"; });
+    el.addEventListener("mouseleave",()=>{ cursor.style.transform="scale(1)"; ring.style.transform="translate(-12px,-12px) scale(1)"; ring.style.borderColor="rgba(216,195,158,0.4)"; });
   });
   const nav=document.getElementById("nav");
   window.addEventListener("scroll",()=>{ nav.classList.toggle("scrolled",window.scrollY>60); });
@@ -1137,7 +1145,7 @@ if(window.location.search.includes("success")) {
         const intensity = 1 - dist / radius;
         const glow = Math.round(intensity * 40);
         ch.style.color = `rgb(${201 + glow}, ${168 + glow}, ${76 + glow})`;
-        ch.style.textShadow = `0 0 ${20 * intensity}px rgba(201,168,76,${intensity * 0.9}), 0 0 ${40 * intensity}px rgba(201,168,76,${intensity * 0.4})`;
+        ch.style.textShadow = `0 0 ${20 * intensity}px rgba(216,195,158,${intensity * 0.9}), 0 0 ${40 * intensity}px rgba(216,195,158,${intensity * 0.4})`;
       } else {
         ch.style.color = '';
         ch.style.textShadow = '';
@@ -1161,7 +1169,7 @@ if(window.location.search.includes("success")) {
     const tx = Math.cos(angle) * dist;
     const ty = Math.sin(angle) * dist;
     const dur = Math.random() * 800 + 400;
-    const color = Math.random() > 0.4 ? "#C9A84C" : "#E8C97A";
+    const color = Math.random() > 0.4 ? "#D8C39E" : "#EFE1C4";
     s.style.cssText = "position:fixed;width:" + size + "px;height:" + size + "px;background:" + color + ";border-radius:50%;pointer-events:none;z-index:9997;left:" + x + "px;top:" + y + "px;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:transform " + dur + "ms ease-out,opacity " + dur + "ms ease-out;";
     document.body.appendChild(s);
     requestAnimationFrame(function() { requestAnimationFrame(function() {
@@ -1177,10 +1185,10 @@ if(window.location.search.includes("success")) {
     isIdle = true;
     cursor.style.transition = "width 1.5s ease,height 1.5s ease,box-shadow 1.5s ease";
     cursor.style.width = "20px"; cursor.style.height = "20px";
-    cursor.style.boxShadow = "0 0 20px rgba(201,168,76,0.8),0 0 40px rgba(201,168,76,0.4)";
+    cursor.style.boxShadow = "0 0 20px rgba(216,195,158,0.8),0 0 40px rgba(216,195,158,0.4)";
     ring.style.transition = "width 2s ease,height 2s ease,border-color 2s ease";
     ring.style.width = "80px"; ring.style.height = "80px";
-    ring.style.borderColor = "rgba(201,168,76,0.6)";
+    ring.style.borderColor = "rgba(216,195,158,0.6)";
     sparkleInterval = setInterval(function() {
       var c = getCenter(); var count = Math.floor(Math.random()*3)+1;
       for(var i=0;i<count;i++) { (function(i){ setTimeout(function(){ createSparkle(c.x,c.y); },i*80); })(i); }
@@ -1193,7 +1201,7 @@ if(window.location.search.includes("success")) {
     cursor.style.width = "8px"; cursor.style.height = "8px"; cursor.style.boxShadow = "";
     ring.style.transition = "width .3s ease,height .3s ease,border-color .3s ease";
     ring.style.width = "40px"; ring.style.height = "40px";
-    ring.style.borderColor = "rgba(201,168,76,0.4)";
+    ring.style.borderColor = "rgba(216,195,158,0.4)";
   }
   function resetIdle() { exitIdle(); clearTimeout(idleTimer); idleTimer = setTimeout(enterIdle, IDLE_DELAY); }
   ["mousemove","mousedown","keydown","scroll","touchstart"].forEach(function(e) { document.addEventListener(e, resetIdle, {passive:true}); });
@@ -1308,6 +1316,7 @@ if(window.location.search.includes("success")) {
 })();
 </script>
 
+<script src="/js/site.js" defer></script>
 <script src="/js/cal-popup.js"></script>
 <!-- Overjaw lead widget -->
 <script async src="https://cdn.overjaw.com/w.js" data-site="rh_8k2v9q4mzx"></script>
