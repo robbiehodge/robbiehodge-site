@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Apollo -->
+<script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"6aa9b9d62eccc80018d566b9"})},document.head.appendChild(o)}initApollo();</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:#7A5E28;--gold-glow:rgba(201,168,76,0.12);--black:#060606;--dark:#0A0A08;--surface:#121210;--surface2:#181816;--border:rgba(201,168,76,0.1);--border-bright:rgba(201,168,76,0.28);--text:#F0EDE6;--text-muted:#B8B0A0;--text-mid:#D0C8B8;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.032;pointer-events:none;z-index:9990;}
+#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+#cursorRing{position:fixed;width:40px;height:40px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.23,1,.32,1),height .4s cubic-bezier(.23,1,.32,1),border-color .3s;}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:16px;height:16px;}
+body:has(a:hover) #cursorRing,body:has(button:hover) #cursorRing{width:64px;height:64px;border-color:rgba(201,168,76,.7);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;background:rgba(6,6,6,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;}
+.nav-links{display:flex;gap:44px;list-style:none;}
+.nav-links a{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-bright);padding:10px 24px;text-decoration:none;transition:all .35s ease;position:relative;overflow:hidden;}
+.nav-cta::before{content:"";position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .35s ease;z-index:-1;}
+.nav-cta:hover{color:var(--black);}
+.nav-cta:hover::before{transform:translateX(0);}
+#progressBar{position:fixed;top:0;left:0;z-index:200;height:2px;width:0%;background:linear-gradient(to right,var(--gold-dim),var(--gold));transition:width .1s linear;}
+
+/* HERO */
+.post-hero{min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 80px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.post-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--dark) 0%,var(--black) 70%);z-index:0;}
+.post-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px;z-index:1;mask-image:linear-gradient(to bottom,transparent 0%,black 30%,black 70%,transparent 100%);}
+.post-hero-content{position:relative;z-index:2;max-width:760px;}
+.post-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
+.post-tag::before{content:"";display:block;width:28px;height:1px;background:var(--gold);}
+.post-title{font-family:"Cormorant Garamond",serif;font-size:clamp(36px,5vw,72px);font-weight:300;line-height:1.0;letter-spacing:-.02em;color:var(--text);margin-bottom:28px;}
+.post-title em{font-style:italic;color:var(--gold);}
+.post-meta{display:flex;gap:40px;border-top:1px solid var(--border);padding-top:28px;flex-wrap:wrap;}
+.post-meta-item{}
+.post-meta-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.post-meta-value{font-size:13px;color:var(--text-mid);}
+
+/* BODY */
+.post-body{max-width:720px;margin:0 auto;padding:80px 40px 120px;}
+.post-body p{font-size:16px;line-height:1.95;color:#C8C0B0;margin-bottom:24px;}
+.post-body p strong{color:var(--text-mid);font-weight:400;}
+.post-body p em{color:var(--text-mid);font-style:italic;}
+.post-body a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);transition:border-color .3s;}
+.post-body a:hover{border-color:var(--gold);}
+
+h2.post-h2{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3vw,44px);font-weight:300;line-height:1.1;letter-spacing:-.01em;color:var(--text);margin:64px 0 20px;}
+h2.post-h2 em{font-style:italic;color:var(--gold);}
+h3.post-h3{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,2.2vw,30px);font-weight:400;color:var(--text);margin:44px 0 16px;line-height:1.2;}
+
+.post-pull{border-left:2px solid var(--gold);padding:28px 36px;margin:48px 0;background:var(--surface);}
+.post-pull p{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,2.2vw,28px);font-weight:300;font-style:italic;color:var(--text-mid);line-height:1.5;margin:0;}
+
+.post-callout{border:1px solid var(--border);padding:32px;margin:40px 0;background:var(--surface);position:relative;}
+.post-callout::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold),var(--gold-dim));}
+.post-callout-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.post-callout p{font-size:14px;line-height:1.75;color:#C0B8A8;margin:0;}
+
+.post-steps{border:1px solid var(--border);margin:40px 0;}
+.post-step{padding:24px 32px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:24px;transition:background .3s,padding-left .3s;position:relative;}
+.post-step:last-child{border-bottom:none;}
+.post-step:hover{background:var(--surface2);padding-left:40px;}
+.post-step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .4s ease;}
+.post-step:hover::before{transform:scaleY(1);}
+.post-step-num{font-family:"Cormorant Garamond",serif;font-size:13px;color:var(--gold-dim);min-width:28px;padding-top:2px;}
+.post-step-content h4{font-size:13px;font-weight:500;letter-spacing:.06em;color:var(--text);margin-bottom:6px;}
+.post-step-content p{font-size:13px;color:#B8B0A0;line-height:1.65;margin:0;}
+
+.post-divider{display:flex;align-items:center;gap:20px;margin:56px 0;color:var(--gold-dim);font-size:8px;letter-spacing:.4em;}
+.post-divider::before,.post-divider::after{content:"";flex:1;height:1px;background:var(--border);}
+
+/* CTA */
+.post-cta{background:var(--surface);border:1px solid var(--border);padding:52px;text-align:center;margin-top:80px;position:relative;overflow:hidden;}
+.post-cta::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold),var(--gold-dim));}
+.post-cta h3{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,2.5vw,36px);font-weight:300;color:var(--text);margin-bottom:12px;line-height:1.2;}
+.post-cta h3 em{font-style:italic;color:var(--gold);}
+.post-cta p{font-size:14px;color:#C0B8A8;margin-bottom:32px;line-height:1.7;}
+.btn-primary{background:var(--gold);color:var(--black);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:16px 36px;text-decoration:none;font-weight:500;display:inline-block;transition:background .3s;border:none;font-family:"DM Sans",sans-serif;}
+.btn-primary:hover{background:var(--gold-light);}
+
+/* FOOTER */
+footer{padding:40px 80px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--dark);}
+.footer-logo{font-family:"Cormorant Garamond",serif;font-size:16px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
+.footer-copy{font-size:11px;color:var(--text-muted);}
+.footer-links{display:flex;gap:32px;list-style:none;}
+.footer-links a{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.footer-links a:hover{color:var(--gold);}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  nav{padding:18px 24px;} .nav-links{display:none;}
+  .post-hero{padding:120px 28px 60px;}
+  .post-body{padding:60px 28px 80px;}
+  .post-meta{gap:24px;}
+  footer{flex-direction:column;gap:20px;text-align:center;padding:40px 28px;}
+  .footer-links{flex-wrap:wrap;justify-content:center;}
+  .post-cta{padding:36px 28px;}
+}
+</style>
+<title>The Blinking Light That Ran My Life (Until Grok Started Watching It) | Robbie Hodge</title><meta name="description" content="My brand new house came with a furnace that kept faulting and an error light nobody could read. I mentioned it to Grok in passing, and it built a local camera watcher that counts the flashes, alerts me, and keeps a log. No cloud vision, no subscription."><meta property="og:title" content="The Blinking Light That Ran My Life (Until Grok Started Watching It)"><meta property="og:description" content="My brand new house came with a furnace that kept faulting and an error light nobody could read. I mentioned it to Grok in passing, and it built a local camera watcher that counts the flashes, alerts me, and keeps a log. No cloud vision, no subscription."><meta property="og:image" content="https://robbiehodge.com/images/blog/furnace-led-watcher-grok/00-hero-led-watcher.jpg"><meta property="og:url" content="https://robbiehodge.com/blog/furnace-led-watcher-grok/"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://robbiehodge.com/blog/furnace-led-watcher-grok/"><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The Blinking Light That Ran My Life (Until Grok Started Watching It)",
+  "description": "My brand new house came with a furnace that kept faulting and an error light nobody could read. I mentioned it to Grok in passing, and it built a local camera watcher that counts the flashes, alerts me, and keeps a log. No cloud vision, no subscription.",
+  "image": "https://robbiehodge.com/images/blog/furnace-led-watcher-grok/00-hero-led-watcher.jpg",
+  "datePublished": "2026-11-25",
+  "dateModified": "2026-11-25",
+  "keywords": "home automation, AI, Home Assistant, HVAC, furnace, Grok, DIY",
+  "author": {
+    "@type": "Person",
+    "name": "Robbie Hodge",
+    "url": "https://robbiehodge.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Robbie Hodge",
+    "url": "https://robbiehodge.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://robbiehodge.com/blog/furnace-led-watcher-grok/"
+  }
+}
+</script><style>
+/* lists, code, figure (Tampermonkey post) */
+.post-body ul,.post-body ol{margin:0 0 24px 22px;color:#C8C0B0;font-size:16px;line-height:1.95;}
+.post-body li{margin-bottom:8px;padding-left:4px;}
+.post-body li::marker{color:var(--gold);}
+.post-body code{font-family:monospace;font-size:14px;color:var(--gold);background:rgba(201,168,76,.08);padding:2px 6px;border-radius:3px;}
+.post-body pre{background:rgba(201,168,76,.05);border:1px solid var(--border);padding:28px 32px;margin:40px 0;overflow-x:auto;}
+.post-body pre code{font-size:13px;line-height:1.7;background:none;padding:0;border-radius:0;}
+.post-figure{margin:0 0 56px;}
+.post-figure img{width:100%;height:auto;display:block;border:1px solid var(--border);}
+</style><style>
+/* furnace post: captions, tables */
+.post-figure figcaption{margin-top:12px;font-size:13px;line-height:1.6;color:var(--text-muted);font-style:italic}
+.post-table{margin:32px 0 40px;overflow-x:auto}
+.post-table table{width:100%;border-collapse:collapse;font-size:15px}
+.post-table th{text-align:left;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:400;padding:12px 16px;border-bottom:1px solid var(--border-bright, rgba(201,168,76,.4))}
+.post-table td{padding:12px 16px;border-bottom:1px solid var(--border);color:#C8C0B0}
+.post-table td:first-child{color:var(--gold);white-space:nowrap;width:120px}
+.post-table tr:hover td{background:rgba(201,168,76,.04)}
+.post-pull p{margin:0}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<div id="cursor"></div>
+<div id="cursorRing"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Robbie Hodge</a>
+  <ul class="nav-links">
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#services">Advisory</a></li>
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/#contact" class="nav-cta">Work Together</a>
+</nav>
+
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-grid"></div>
+  <div class="post-hero-content">
+    <div class="post-tag">AI &middot; Home Automation &middot; DIY</div>
+    <h1 class="post-title">The Blinking Light That Ran My Life <em>(Until Grok Started Watching It)</em></h1>
+    <div class="post-meta">
+      <div class="post-meta-item"><div class="post-meta-label">Author</div><div class="post-meta-value">Robbie Hodge</div></div>
+      <div class="post-meta-item"><div class="post-meta-label">Published</div><div class="post-meta-value">November 2026</div></div>
+      <div class="post-meta-item"><div class="post-meta-label">Read time</div><div class="post-meta-value">7 minutes</div></div>
+      <div class="post-meta-item"><div class="post-meta-label">Topic</div><div class="post-meta-value">AI &middot; Home Automation &middot; DIY</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="post-body">
+  <figure class="post-figure reveal"><img alt="Stylized illustration of a dim attic where a small camera watches a glowing red LED on a furnace control board, next to a small home server linked by a dotted line to a phone showing a notification." height="720" loading="eager" src="/images/blog/furnace-led-watcher-grok/00-hero-led-watcher.jpg" width="1280"/><figcaption>Illustration. The real attic is dustier and a lot less cinematic.</figcaption></figure>
+  <h2 class="post-h2 reveal">The bane of my existence</h2>
+  <p class="reveal">Buy a brand new house and you figure the furnace is the one thing you'll never think about. New house. New equipment. Warranty. Done.</p>
+  <p class="reveal">Mine had other plans.</p>
+  <p class="reveal">Since the day I moved in, the furnace in my attic has had a habit. It runs, shuts itself off, blinks a little red light four times, then clears itself and starts back up like nothing happened. Sometimes at dinner. Usually at 2 AM.</p>
+  <p class="reveal">That was over six years ago. I've had techs out every single year since. Multiple companies, multiple techs. The condensate drain got repiped, then repiped again, and some vents went in. We band-aid it, it seems better for a while, and then another problem shows up.</p>
+  <p class="reveal">Four flashes on a Goodman means "open high limit." Translation: the furnace got too hot and its safety switch killed the burners. The switch is doing its job. The real question is why it keeps getting too hot, and that's where it got frustrating.</p>
+  <h2 class="post-h2 reveal">A new board, and still no data</h2>
+  <p class="reveal">It's a Goodman 92% unit, 120,000 BTU, single stage. The control board was recently swapped for a new wireless board with a discharge air temperature sensor. On paper, that sounds like data.</p>
+  <p class="reveal">In practice, I can't get at any of it. No app, no account, no data. The board is ancient, archaic and expensive, and it keeps whatever it knows to itself.</p>
+  <p class="reveal">So my only diagnostic was the same one furnaces have had for decades. One LED. Blinking a code. In an attic. When nobody's looking.</p>
+  <p class="reveal">I'd already pointed a budget Wyze cam, the cheapest one they make, at the board, which is how you know you've lost a fight with an appliance. But a camera pointed at a light tells you nothing unless someone's watching the video at the exact right moment and counting. I was not going to be that someone at 2 AM.</p>
+  <h2 class="post-h2 reveal">I mentioned it to Grok. Grok started building.</h2>
+  <p class="reveal">This is the part that still gets me.</p>
+  <p class="reveal">I wasn't asking for a project. I was asking Grok, my AI assistant, what four flashes meant. Somewhere in that back and forth I vented:</p>
+  <div class="post-pull reveal">
+<p>"I don't have any access except for this flashing LED for diagnostics. I do have a camera pointed at it, but it's hard to find anything and see."</p>
+</div>
+  <p class="reveal">Grok didn't offer sympathy. It offered a plan:</p>
+  <div class="post-pull reveal">
+<p>"That's fixable. Since the camera's already on the LED, [I] could have Home Assistant watch that spot and log when it starts flashing, with the count and time, so you're not scrubbing through footage."</p>
+</div>
+  <p class="reveal">I told it I thought it was worth it, as long as it didn't burn through a ton of data or credits.</p>
+  <p class="reveal">Then it went and did it. In one afternoon it:</p>
+  <ul class="reveal">
+<li>connected the Wyze cameras to my home server so the video stays local</li>
+<li>figured out which camera was the furnace cam (I honestly didn't know the model or what I'd named it in the app)</li>
+<li>wrote a small flash detector that watches the LED and counts the blinks</li>
+<li>hooked up alerts to my phone and Slack</li>
+<li>built a log page and a nightly summary</li>
+<li>plugged it all into Home Assistant</li>
+</ul>
+  <p class="reveal">I approved the pieces and typed my own passwords into secure boxes. Grok did the rest. A blinking LED is about as old school as diagnostics get, and it took a very new tool to finally read it.</p>
+  <h2 class="post-h2 reveal">The clever bit: counting blinks without "AI vision"</h2>
+  <p class="reveal">The obvious 2026 move would be to send video to a cloud AI model every few seconds and ask "is it blinking?" That's slow, it costs money, and it means piping video of my attic to someone else's computer.</p>
+  <p class="reveal">Grok went the other way. The detector is almost embarrassingly simple, which is exactly why it works.</p>
+  <figure class="post-figure reveal"><img alt="Real camera frame, cropped and brightened, showing a single red LED on the furnace board with a red square drawn around a small patch of pixels." height="640" loading="lazy" src="/images/blog/furnace-led-watcher-grok/01-led-closeup-roi.png" width="960"/><figcaption>The real camera view, cropped and brightened. The red box is the only part the detector looks at: a 24 by 24 pixel patch.</figcaption></figure>
+  <p class="reveal">Here's how it works:</p>
+  <ol class="reveal">
+<li><strong>Look at one tiny square.</strong> It crops a 24 by 24 pixel patch around the LED and ignores everything else.</li>
+<li><strong>Ask one question, five times a second.</strong> "How many pixels in this square are clearly red?" Enough, and the LED is on. Not enough, it's off.</li>
+<li><strong>Count the pulses.</strong> Short blinks get counted. When the LED stays dark for about 1.8 seconds, the code is over, and the count is the code.</li>
+<li><strong>Know what normal looks like.</strong> On my board, a steady light means all good. Rapid flashing means something else entirely (reversed power polarity), so it gets its own label.</li>
+</ol>
+  <figure class="post-figure reveal"><img alt="Animated loop of the LED blinking four times and then pausing, with a red box around the LED." height="320" loading="lazy" src="/images/blog/furnace-led-watcher-grok/02-four-flash-simulation.gif" width="480"/><figcaption>Simulated from a real frame: four flashes, a pause, and that's code 4.</figcaption></figure>
+  <figure class="post-figure reveal"><img alt="Line chart of red pixel count over 14 seconds showing two groups of four pulses well above an ON threshold of 40 pixels, with a shaded 1.8 second dark gap marking the end of the code." height="396" loading="lazy" src="/images/blog/furnace-led-watcher-grok/03-brightness-chart.png" width="990"/><figcaption>What the detector "sees." Example data.</figcaption></figure>
+  <p class="reveal">It runs entirely at home on less than 1% of the server's CPU. No cloud vision. No AI staring at the video. Nothing to pay monthly. The AI was the builder, not the babysitter.</p>
+  <h2 class="post-h2 reveal">The code (simplified)</h2>
+  <p class="reveal">The real version handles a few more edge cases (camera dropouts, a little hysteresis so a flicker doesn't count twice, and a 10 minute cooldown so the same code doesn't spam me). The heart of it fits on one screen:</p>
+  <pre class="reveal"><code class="language-python">import numpy as np
+
+CODES = {
+    1: "ignition lockout",
+    2: "pressure switch stuck closed",
+    3: "pressure switch stuck open",
+    4: "open high limit",
+    5: "flame sensed without gas valve",
+    6: "open rollout",
+    7: "low flame signal",
+    8: "igniter or improper grounding",
+}
+
+STEADY_ON_S = 1.0   # lit this long = normal, not a flash
+CODE_GAP_S = 1.8    # dark this long = the code is finished
+MIN_PULSE_S = 0.08  # ignore anything shorter (noise)
+
+
+def led_is_on(patch, min_red=80, min_excess=30, on_pixels=40):
+    """patch: a 24x24 RGB crop around the LED (numpy array)."""
+    r = patch[:, :, 0].astype(int)
+    g = patch[:, :, 1].astype(int)
+    b = patch[:, :, 2].astype(int)
+    reddish = (r &gt; min_red) &amp; (r - np.maximum(g, b) &gt; min_excess)
+    return reddish.sum() &gt;= on_pixels
+
+
+class FlashCounter:
+    def __init__(self):
+        self.on = False
+        self.edge = 0.0      # time of the last on/off change
+        self.pulses = 0
+
+    def update(self, t, is_on):
+        """Call ~5 times a second. Returns a message when a code finishes."""
+        if is_on and not self.on:                 # LED just turned on
+            self.on, self.edge = True, t
+        elif is_on and t - self.edge &gt;= STEADY_ON_S:
+            self.pulses = 0                       # steady on: all good
+            return None
+        elif not is_on and self.on:               # LED just turned off
+            if MIN_PULSE_S &lt;= t - self.edge &lt; STEADY_ON_S:
+                self.pulses += 1                  # that was one flash
+            self.on, self.edge = False, t
+        elif not is_on and self.pulses and t - self.edge &gt;= CODE_GAP_S:
+            n, self.pulses = self.pulses, 0       # long pause: code is done
+            meaning = CODES.get(n, "unknown code")
+            return f"Furnace: {n} flashes ({meaning})"
+        return None
+</code></pre>
+  <h2 class="post-h2 reveal">The payoff: I finally know what's happening</h2>
+  <p class="reveal">Now any time the LED blinks a code, day or night, I get an alert with the flash count and what it means. Not "something happened." Actual words: "4 flashes, open high limit."</p>
+  <figure class="post-figure reveal"><img alt="Illustrated phone lock screen at 2:13 AM showing two notifications from Furnace alerts, each reading Furnace: 4 flashes (open high limit). Labeled example data." height="640" loading="lazy" src="/images/blog/furnace-led-watcher-grok/04-mock-phone-alert.png" width="560"/><figcaption>The 2 AM notification I used to only imagine. Example data.</figcaption></figure>
+  <p class="reveal">The same alert lands in Slack. If a night had any flashes, a summary posts at 10 PM with a count of each code. Quiet nights send nothing, which is honestly my favorite feature.</p>
+  <figure class="post-figure reveal"><img alt="Stylized chat channel with a Furnace alerts message about 4 flashes and a 10 PM nightly summary listing three high limit events and one pressure switch event. Labeled example data." height="520" loading="lazy" src="/images/blog/furnace-led-watcher-grok/05-mock-chat-alert.png" width="860"/><figcaption>Alerts plus a nightly summary, only when something happened. Example data.</figcaption></figure>
+  <p class="reveal">There's also a simple log page: what the light's doing right now, whether the camera is online, every event with its time, count and meaning, and totals for today, the last 7 days and the last 30.</p>
+  <figure class="post-figure reveal"><img alt="Illustrated web page titled Furnace log showing LED steady on, camera online, counts for today, 7 days and 30 days, and a table of recent events with times, flash counts and meanings. Labeled example data." height="560" loading="lazy" src="/images/blog/furnace-led-watcher-grok/06-mock-log-page.png" width="1000"/><figcaption>The log page. Example data.</figcaption></figure>
+  <p class="reveal">It also counts whatever it actually sees. It isn't always four, so if it's two or three (or something weird), I'll know instead of guessing.</p>
+  <p class="reveal">The real numbers, as I hit publish: the watcher has been running for about an hour and has looked at roughly 17,000 frames. Flash codes caught: zero. The LED has been steady on (normal) the whole time. Of course. The furnace knows it's being watched. Everything in the screenshots above is example data until it slips up.</p>
+  <p class="reveal">Here's how it all fits together:</p>
+  <figure class="post-figure reveal"><img alt="Flow diagram: furnace board LED to cheap Wyze camera to Wyze bridge to flash detector, which feeds a phone alert, a chat channel, a log page and Home Assistant. A note says it all runs at home with no cloud vision." height="440" loading="lazy" src="/images/blog/furnace-led-watcher-grok/07-architecture-diagram.png" width="1180"/><figcaption>Everything runs on a small server at home.</figcaption></figure>
+  <h2 class="post-h2 reveal">Be honest: did it fix the furnace?</h2>
+  <p class="reveal">No. Not yet.</p>
+  <p class="reveal">It doesn't repair anything. It watches, counts and writes it down. Turns out that matters a lot. Before, I had a vague sense that "it does the four blink thing sometimes." Now I'll have times, counts and patterns. That's something I can hand an HVAC tech, and it beats "it happens at night, I think."</p>
+  <p class="reveal">I sleep a little easier knowing something is watching it and keeping score.</p>
+  <h2 class="post-h2 reveal">A word on safety</h2>
+  <p class="reveal">A high limit trip is a safety feature, not a nuisance. It usually points to airflow: a dirty or too restrictive filter, blocked or undersized returns, closed vents, or a blower that isn't moving enough air. Sometimes it's something more serious.</p>
+  <p class="reveal">So check your filter, keep returns clear, and call a licensed HVAC pro. Please don't bypass or jumper a safety switch to make the light go away. A camera that reads the error code is fine. Silencing the furnace's safeties is not.</p>
+  <h2 class="post-h2 reveal">Flash code cheat sheet</h2>
+  <figure class="post-figure reveal"><img alt="Table of typical Goodman furnace LED codes: 1 ignition lockout, 2 pressure switch stuck closed, 3 pressure switch stuck open, 4 open high limit, 5 flame without gas valve, 6 open rollout, 7 low flame signal, 8 igniter or grounding, rapid reversed polarity, steady on normal, off no power." height="640" loading="lazy" src="/images/blog/furnace-led-watcher-grok/08-flash-code-cheat-sheet.png" width="860"/></figure>
+  <div class="post-table reveal"><table>
+<thead>
+<tr>
+<th>Flashes</th>
+<th>Typical Goodman meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Ignition lockout</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pressure switch stuck closed</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Pressure switch stuck open</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Open high limit</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Flame sensed without gas valve</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Open rollout switch</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Low flame signal</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Igniter problem or improper grounding</td>
+</tr>
+<tr>
+<td>Rapid</td>
+<td>Reversed 115 VAC polarity</td>
+</tr>
+<tr>
+<td>Steady on</td>
+<td>Normal</td>
+</tr>
+</tbody>
+</table></div>
+  <p class="reveal">This is the common Goodman table. Boards vary, even within one brand, and replacement boards can differ. Check the label on your furnace door or your manual before trusting it.</p>
+  <h2 class="post-h2 reveal">What's next: actually measuring the heat</h2>
+  <p class="reveal">The LED tells me <em>that</em> the high limit tripped. It doesn't tell me <em>why</em>. Next up is temperature.</p>
+  <p class="reveal">The plan is two stainless DS18B20 temperature probes, one in the supply duct and one in the return, read by a small ESP32 board and fed into Home Assistant. The difference between them is the "temperature rise." My furnace is rated for a 35 to 65°F rise. If it creeps toward the top of that range right before a trip, that's a strong airflow clue to hand a tech.</p>
+  <p class="reveal">The parts are inexpensive, and one ESP32 can read both probes. I haven't bought them yet. That's the next chapter.</p>
+  <h2 class="post-h2 reveal">If you want to try this</h2>
+  <p class="reveal">You don't need my exact setup. The recipe:</p>
+  <ul class="reveal">
+<li>any camera that can give you a local video stream, pointed at the LED</li>
+<li>a small always-on computer at home</li>
+<li>a few dozen lines of code that check one tiny patch of pixels a few times a second</li>
+<li>somewhere to send the alert</li>
+</ul>
+  <p class="reveal">Total cost: a budget Wyze cam I already owned and an afternoon of an AI assistant doing the tedious parts.</p>
+  <p class="reveal">Ancient problem, blinking light. New tool, finally reading it. I'll take it.</p>
+
+  <div class="post-cta reveal">
+    <h3>Got a problem only a blinking light can explain?</h3>
+    <p>I like the stubborn ones: old equipment, missing data, tools that don&#39;t talk to each other. If something in your business is blinking at you, let&#39;s talk.</p>
+    <a href="https://calendly.com/me-robbiehodge/30min" class="btn-primary" target="_blank" rel="noopener">Schedule a Conversation →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Robbie Hodge</div>
+  <div class="footer-copy">© 2026 Robbie Hodge — Charlotte, NC</div>
+  <ul class="footer-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#services">Advisory</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function ar(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
+window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(s/h*100)+'%';});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9CPX0MFSJN"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9CPX0MFSJN');gtag('event','page_view',{page_title:'Furnace LED Watcher Grok',page_location:window.location.href});</script>
+
+<script src="/js/cal-popup.js"></script>
+
+<!-- Overjaw lead widget -->
+<script async src="https://cdn.overjaw.com/w.js" data-site="rh_8k2v9q4mzx"></script>
+</body></html>
