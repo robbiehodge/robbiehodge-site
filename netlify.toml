@@ -19,3 +19,10 @@
   to = "https://robbiehodge-tisas.netlify.app/tisas/:splat"
   status = 200
   force = true
+
+# Starlink referral short link
+[[redirects]]
+  from = "/starlink"
+  to = "https://starlink.com/?referral=RC-DF-17327754-76577-14"
+  status = 301
+  force = true
